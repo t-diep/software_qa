@@ -7,7 +7,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class WebDriverBrowserCommands 
 {
-static WebDriver driver;
+	//Used to run the Selenium WebDriver
+	static WebDriver driver;
 	
 	public static void main(String[] args) 
 	{
@@ -15,7 +16,7 @@ static WebDriver driver;
 	}
 
 	/**
-	 * 
+	 * Sets up and runs the google chrome browser
 	 */
 	public static void invokeBrowser()
 	{	
@@ -32,8 +33,10 @@ static WebDriver driver;
 			//Delete all cookies first
 			driver.manage().deleteAllCookies();
 			
+			//Configure the time for the driver to search for elements if not immediately found
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			
+			//Configure the amount of time for the page to load before timing out
 			driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
 			
 			executeCloseBrowser();
@@ -45,7 +48,7 @@ static WebDriver driver;
 	}
 	
 	/**
-	 * 
+	 * Simply closes the browser running on the web driver
 	 */
 	public static void executeCloseBrowser()
 	{

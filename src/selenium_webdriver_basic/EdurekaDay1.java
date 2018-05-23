@@ -7,9 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 /**
+ * Using Selenium WebDriver from Edureka tutorial
  * 
- * @author antho
- *
+ * @author Tony Diep, last updated 5-22-18 
  */
 public class EdurekaDay1 
 {	
@@ -26,7 +26,8 @@ public class EdurekaDay1
 	 */
 	public static void invokeChromeBrowser()
 	{
-		try {
+		try 
+		{
 			System.setProperty("webdriver.chrome.driver", "C:\\Users\\antho\\Downloads\\Selenium\\chromedriver_win32\\chromedriver.exe");
 			
 			//Load chrome browser
@@ -47,6 +48,7 @@ public class EdurekaDay1
 			//Fetch URL for this browser
 			webDriver.get("https://www.edureka.co");
 			
+			//Run test script for searching for a course
 			searchCourse();
 		} 
 		catch (Exception e) 

@@ -76,6 +76,6 @@ public class WebDriver_Serebii
 		jexe.executeScript("scroll(0, 1200)");
 		driver.findElement(By.linkText("Ultra Sun & Ultra Moon")).click();
 		jexe.executeScript("scroll(0, 400)");
-		driver.findElement(By.xpath("//*[@id=\"player_uid_485535048_1\"]/div[4]/button")).click();
+		driver.findElement(By.cssSelector("input[class='")).click();
 	}
 }
