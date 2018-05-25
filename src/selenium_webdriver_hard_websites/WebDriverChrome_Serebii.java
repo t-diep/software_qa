@@ -1,4 +1,4 @@
-package selenium_webdriver_website_serebiidotnet;
+package selenium_webdriver_hard_websites;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +15,13 @@ import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.gargoylesoftware.htmlunit.javascript.background.JavaScriptExecutor;
+
+/**
+ * ON HOLD FOR NOW
+ * 
+ * @author Tony Diep, last updated 5-25-18
+ */
 public class WebDriverChrome_Serebii 
 {
 	static WebDriver driver;
@@ -61,6 +68,8 @@ public class WebDriverChrome_Serebii
 			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
 			
 			driver.get("https://www.serebii.net/index2.shtml");
+			
+			jexe = (JavascriptExecutor) driver;
 		} 
 		catch (Exception e) 
 		{
@@ -77,7 +86,11 @@ public class WebDriverChrome_Serebii
 		switch(number)
 		{
 			case 0:
-				navigateToUSUMPage();
+				playYouTubeVideoTrailer();
+			break;
+			
+			case 1:
+				pokemonOfTheWeek();
 			break;
 			
 			default:
@@ -88,15 +101,21 @@ public class WebDriverChrome_Serebii
 	/**
 	 * Test script to navigate to the Pokemon Ultra Sun and Ultra Moon (USUM) webpage 
 	 */
-	private static void navigateToUSUMPage()
+	private static void playYouTubeVideoTrailer()
 	{
-		jexe = (JavascriptExecutor) driver;
 		jexe.executeScript("scroll(0, 1200)");
 		driver.findElement(By.linkText("Ultra Sun & Ultra Moon")).click();
 		jexe.executeScript("scroll(0, 400)");
 		driver.findElement(By.cssSelector("input[class='")).click();
 		//String absPath = "html/head/body[1]";
-		//new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(By.cssSelector("//*[@id='player_uid_946563507_1']/div[4]/div[1]/@button='player_uid_946563507_1']/div[4]/button"))).click();
-		
+		//new WebDriverWait(driver, 10).until(ExpectedConditions.elementToBeClickable(By.cssSelector("//*[@id='player_uid_946563507_1']/div[4]/div[1]/@button='player_uid_946563507_1']/div[4]/button"))).click();	
+	}
+	
+	/**
+	 * 
+	 */
+	private static void pokemonOfTheWeek()
+	{
+		driver.findElement(By.xpath("//*[@id='menu']/a[2]/img")).click();
 	}
 }
