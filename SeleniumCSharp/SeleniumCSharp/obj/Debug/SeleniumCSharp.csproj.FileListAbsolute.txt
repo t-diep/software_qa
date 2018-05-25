@@ -1,0 +1,14 @@
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\obj\Debug\SeleniumCSharp.csproj.CoreCompileInputs.cache
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\bin\Debug\SeleniumCSharp.exe.config
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\bin\Debug\SeleniumCSharp.exe
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\bin\Debug\SeleniumCSharp.pdb
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\bin\Debug\WebDriver.dll
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\bin\Debug\WebDriver.xml
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\obj\Debug\SeleniumCSharp.csproj.CopyComplete
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\obj\Debug\SeleniumCSharp.exe
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\obj\Debug\SeleniumCSharp.pdb
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\obj\Debug\SeleniumCSharp.csprojResolveAssemblyReference.cache
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\bin\Debug\WebDriver.Support.dll
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\bin\Debug\WebDriver.Support.xml
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\bin\Debug\Selenium.WebDriverBackedSelenium.dll
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\SeleniumCSharp\bin\Debug\Selenium.WebDriverBackedSelenium.xml
