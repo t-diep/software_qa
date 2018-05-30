@@ -2,9 +2,6 @@ package selenium_webdriver_easy_websites;
 
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.JOptionPane;
-
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -17,7 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * Contains the test setups and test scripts for the sample demo website
  * "PHPTravels.com"
  * 
- * @author Tony Diep, last updated 5-28-18
+ * @author Tony Diep, last updated 5-30-18
  */
 public class PhpTravels 
 {
@@ -87,11 +84,11 @@ public class PhpTravels
 	}
 	
 	/**
-	 * 
+	 * Registers a new account onto PHPTravels.org
 	 */
 	public static void register()
 	{
-		driver.switchTo().frame(driver.findElement(By.xpath("//*[@id='main-menu']")));
-		driver.findElement(By.xpath("//*[@id='main-menu']/ul/li[8]/a/i")).click();
+		//driver.switchTo().frame(driver.findElement(By.xpath("//*[@id='main-menu']")));
+		driver.findElement(By.linkText("http://phptravels.org")).click();
 	}
 }
