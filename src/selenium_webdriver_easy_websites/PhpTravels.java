@@ -7,6 +7,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -73,9 +74,14 @@ public class PhpTravels
 	{
 		try
 		{
-			waiting = new WebDriverWait(driver, 10);
+			//waiting = new WebDriverWait(driver, 10);
 			WebElement dismissPopUp = waiting.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#onesignal-popover-cancel-button")));
 			dismissPopUp.click();
+			
+			WebElement login = waiting.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@id='main-menu']/ul/li[8]/a/span"))));
+			Actions actions = new Actions(driver);
+			actions.moveToElement(login).click().build().perform();
+			
 		}
 		catch(Exception e)
 		{			
@@ -87,8 +93,7 @@ public class PhpTravels
 	 * Registers a new account onto PHPTravels.org
 	 */
 	public static void register()
-	{
-		//driver.switchTo().frame(driver.findElement(By.xpath("//*[@id='main-menu']")));
-		driver.findElement(By.linkText("http://phptravels.org")).click();
+	{	
+		driver.findElement(By.linkText("register.php")).click();
 	}
 }
