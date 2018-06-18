@@ -1,0 +1,4 @@
+﻿Frau|woman
+Junge|boy
+Mann|man
+Madchen|girl
