@@ -213,7 +213,7 @@ namespace Duolingo
         }
 
         /**
-         * 
+         * Helper for adding another language course 
          */
         private void AddAnotherLanguageCourse()
         {
@@ -232,6 +232,30 @@ namespace Duolingo
 
             IWebElement startCourseButton = driver.FindElement(By.CssSelector("body.global-en.compact-enabled:nth-child(2) main.main-full-width.course-page.es:nth-child(1) section.page-main div.course-page-splash.gradient:nth-child(1) div.course-page-body div.sub-head:nth-child(3) > button.btn.btn-white.btn-solid.switch-learning-language"));
             startCourseButton.Click();
+        }
+
+        /**
+         * Helps create a profile on Duolingo web application
+         */
+        private void CreateProfile()
+        {
+            IWebElement createProfileButton = driver.FindElement(By.CssSelector("div.BWibf._3MLiB div:nth-child(1) div._1bWnW div._3EEVs._1RUUp > button._3KncV._3e75V._3f25b._3hso2._3skMI._1Le6e"));
+            createProfileButton.Click();
+
+            IWebElement ageField = driver.FindElement(By.XPath("/html[1]/body[1]/div[24]/div[1]/div[1]/form[1]/div[1]/label[1]/div[2]/input[1]"));
+            ageField.SendKeys("22");
+
+            IWebElement nameField = driver.FindElement(By.XPath("/html[1]/body[1]/div[24]/div[1]/div[1]/form[1]/div[1]/label[2]/div[2]/input[1]"));
+            nameField.SendKeys("Tony Diep");
+
+            IWebElement emailField = driver.FindElement(By.XPath("/html[1]/body[1]/div[24]/div[1]/div[1]/form[1]/div[1]/label[3]/div[2]/input[1]"));
+            emailField.SendKeys("tdrs041818ushe1@hkconsulting.biz");
+
+            IWebElement passwordField = driver.FindElement(By.XPath("/html[1]/body[1]/div[24]/div[1]/div[1]/form[1]/div[1]/label[4]/div[2]/input[1]"));
+            passwordField.SendKeys("testpassword");
+
+            IWebElement createAccountButton = driver.FindElement(By.XPath("/html[1]/body[1]/div[24]/div[1]/div[1]/form[1]/button[1]"));
+            createAccountButton.Click();
         }
 
         /*END OF METHOD USED FOR CONVIENIENCE*/
@@ -351,6 +375,8 @@ namespace Duolingo
             StartLearningCourse();
             SetDailyGoal();
             CompleteBasicsCourse();
+
+            Thread.Sleep(1500);
          }
 
         /**
@@ -364,6 +390,22 @@ namespace Duolingo
             StartLearningCourse();
             SetDailyGoal();
             AddAnotherLanguageCourse();
+
+            Thread.Sleep(1500);
+        }
+
+        /**
+         * Tests whether the profile is created successfully 
+         */
+        [TestMethod]
+        public void AutomateTestCreateProfile()
+        {
+            LoadWebPage();
+            SelectCourse();
+            StartLearningCourse();
+            CreateProfile();
+
+            Thread.Sleep(2000);
         }
 
         /**
