@@ -5,6 +5,7 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Interactions;
 
 /**
  * Contains all of the test scripts for automation testing using 
@@ -98,7 +99,7 @@ namespace Duolingo
         }
 
         /**
-         * 
+         * Automates a user completing a language basics entry course
          */
         private void CompleteBasicsCourse()
         {
@@ -181,11 +182,17 @@ namespace Duolingo
             Thread.Sleep(2000);
         }
 
+        /**
+         * Any dynamic pages containing choosing the right words to translate are handled 
+         */
         private void HandleWriteCorrectTranslationPage(string phrase)
         {
 
         }
 
+        /**
+         * Returns a list of all German to English word pairs used for lookup
+         */
         private Dictionary<String, String> ConstructLibrary()
         {
             Dictionary<String, String> library = new Dictionary<string, string>();
@@ -203,6 +210,28 @@ namespace Duolingo
             }
 
             return library;
+        }
+
+        /**
+         * 
+         */
+        private void AddAnotherLanguageCourse()
+        {
+            IWebElement xButton = driver.FindElement(By.CssSelector("div.BWibf._3MLiB div._3PBCS div._3giip div._1zuqL div.Mlxjr > a._38taa._2Zfkq.cCL9P"));
+            xButton.Click();
+
+            IWebElement languageMenu = driver.FindElement(By.CssSelector("div._6t5Uh div.NbGcm div._3vDrO div._3I51r._2OF7V > span.oboa9._3viv6.HCWXf._3PU7E._3JPjo"));
+            Actions hover = new Actions(driver);
+            hover.MoveToElement(languageMenu).Build().Perform();
+
+            IWebElement addNewCourse = driver.FindElement(By.CssSelector("div._6t5Uh div.NbGcm div._3vDrO div._3I51r._2OF7V div._2LqjD ul._20LC5._2HujR._1ZY-H > li._2uBp_._1qBnH"));
+            addNewCourse.Click();
+
+            IWebElement otherCourse = driver.FindElement(By.XPath("/html[1]/body[1]/div[3]/main[1]/section[1]/div[2]/div[1]/a[1]/div[1]"));
+            otherCourse.Click();
+
+            IWebElement startCourseButton = driver.FindElement(By.CssSelector("body.global-en.compact-enabled:nth-child(2) main.main-full-width.course-page.es:nth-child(1) section.page-main div.course-page-splash.gradient:nth-child(1) div.course-page-body div.sub-head:nth-child(3) > button.btn.btn-white.btn-solid.switch-learning-language"));
+            startCourseButton.Click();
         }
 
         /*END OF METHOD USED FOR CONVIENIENCE*/
@@ -323,6 +352,19 @@ namespace Duolingo
             SetDailyGoal();
             CompleteBasicsCourse();
          }
+
+        /**
+         * Tests whether a user is able to add another language course to the collection
+         */
+        [TestMethod]
+        public void AutomateTestAddAnotherLanguageCourse()
+        {
+            LoadWebPage();
+            SelectCourse();
+            StartLearningCourse();
+            SetDailyGoal();
+            AddAnotherLanguageCourse();
+        }
 
         /**
          * Used to run one instance of the web driver per test case
