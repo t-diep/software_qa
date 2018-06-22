@@ -14,3 +14,5 @@ C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\obj\Debug\Duolin
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\obj\Debug\Duolingo.csproj.CopyComplete
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\obj\Debug\Duolingo.dll
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\obj\Debug\Duolingo.pdb
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\bin\Debug\WebDriver.Support.dll
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\bin\Debug\WebDriver.Support.xml
