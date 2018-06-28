@@ -31,6 +31,8 @@ namespace RegentsWeb
             jexe.ExecuteScript("scroll(0, 1300)");
             driver.FindElement(By.Id("startYourApplicationId")).Click();
 
+            jexe.ExecuteScript("scroll(0, 1300)");
+
             Thread.Sleep(1500);
         }
 
@@ -93,9 +95,29 @@ namespace RegentsWeb
             jexe.ExecuteScript("scroll(0, 500)");
 
             driver.FindElement(By.Name("notifyOption")).Click();
-            driver.FindElement(By.Id("dateOfBirthId")).SendKeys("02/02/1996");
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[4]/div[1]/div[1]/div[3]/button[1]")).Click();
+
+            IWebElement dobField = driver.FindElement(By.Id("dateOfBirhtId"));
+            dobField.SendKeys("02/02/2000");
+            dobField.SendKeys(Keys.Tab);
+
             driver.FindElement(By.Id("ssn")).SendKeys("999-99-9999");
             driver.FindElement(By.Id("pinNumber")).SendKeys("9999");
+
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/form[1]/div[11]/div[1]/div[2]/div[2]/input[1]")).Click();
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/form[1]/div[11]/div[3]/div[2]/div[1]/input[1]")).Click();
+
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/form[1]/div[12]/div[1]/div[2]/div[1]/input[1]")).Click();
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/form[1]/div[12]/div[2]/div[2]/div[1]/input[1]")).Click();
+
+            driver.FindElement(By.Id("agreeTerms")).Click();
+
+            jexe.ExecuteScript("scroll(500, 1000)");
+
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/form[1]/div[14]/div[3]/div[1]/div[2]/div[1]/input[1]")).Click();
+
+            //Continue button
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/form[1]/div[15]/button[1]")).Click();
 
             Thread.Sleep(2000);
         }
@@ -119,7 +141,7 @@ namespace RegentsWeb
          * Tests whether skipping the initial application works as expected
          */
         [TestMethod]
-        public void AutomateTestSkipCreateNewAccount()
+        public void AutomateTestRegentsWebSkipCreateNewAccount()
         {
             SkipCreateNewAccount();
 
@@ -131,7 +153,7 @@ namespace RegentsWeb
          * the user to the Home page of the Regents Web App
          */
         [TestMethod]
-        public void AutomateTestCreateNewAccount()
+        public void AutomateTestRegentsWebCreateNewAccount()
         {
             CreateNewAccount();
 
@@ -139,14 +161,14 @@ namespace RegentsWeb
         }
 
         /**
-         * 
+         * Tests for filling the personal information section of the application 
          */
         [TestMethod]
-        public void AutomateTestCompletePersonalInformation()
+        public void AutomateTestRegentsWebCompletePersonalInformation()
         {
             CompletePersonalInformation();
 
-            Assert.AreEqual("https://devaccount.regentsscholarship.org/regents/personal", driver.Url);
+            Assert.AreEqual("https://devaccount.regentsscholarship.org/regents/education", driver.Url);
         }
 
         [TestCleanup]
