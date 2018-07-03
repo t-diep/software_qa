@@ -1,0 +1,14 @@
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\StudentAdminPortal.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\StudentAdminPortal.pdb
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\obj\Debug\StudentAdminPortal.csprojResolveAssemblyReference.cache
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\obj\Debug\StudentAdminPortal.csproj.CoreCompileInputs.cache
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\obj\Debug\StudentAdminPortal.csproj.CopyComplete
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\obj\Debug\StudentAdminPortal.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\obj\Debug\StudentAdminPortal.pdb

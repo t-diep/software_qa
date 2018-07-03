@@ -1,0 +1,13 @@
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\CourseWarehouse.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\CourseWarehouse.pdb
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\obj\Debug\CourseWarehouse.csproj.CoreCompileInputs.cache
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\obj\Debug\CourseWarehouse.csproj.CopyComplete
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\obj\Debug\CourseWarehouse.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\obj\Debug\CourseWarehouse.pdb

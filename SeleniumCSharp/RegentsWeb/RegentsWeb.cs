@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 /**
  * Contains the test suite for the regents web application
@@ -112,7 +115,7 @@ namespace RegentsWeb
 
             driver.FindElement(By.Id("agreeTerms")).Click();
 
-            jexe.ExecuteScript("scroll(500, 1000)");
+            jexe.ExecuteScript("scroll(500, 1200)");
 
             driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/form[1]/div[14]/div[3]/div[1]/div[2]/div[1]/input[1]")).Click();
 
@@ -122,8 +125,35 @@ namespace RegentsWeb
             Thread.Sleep(2000);
         }
 
+        /**
+         * Helper for filling the necessary fields in the Education Information page
+         */
+        private void CompleteEducationInformation()
+        {
+            //Add school button
+            driver.FindElement(By.Id("addSchool-btn")).Click();
+
+            IReadOnlyCollection<IWebElement> allSchools = driver.FindElements(By.Id("modalSchoolId"));
+            Random generator = new Random();
+            int index = generator.Next(allSchools.Count);
+
+            IWebElement school = allSchools.ElementAt(index);
+
+            //Save button within select schools menu
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[4]/div[1]/div[1]/div[3]/button[1]")).Click();
+
+            IWebElement gradSchoolField = driver.FindElement(By.Id("graduationSchoolId"));
+            gradSchoolField.Click();
+            gradSchoolField.SendKeys(school.Text);
+
+                       
+        }
+
         /*END PRIVATE METHODS*/
 
+        /**
+         * Configures browser settings and opens a browser 
+         */
         [TestInitialize]
         public void SetUpBrowser()
         {
@@ -171,6 +201,19 @@ namespace RegentsWeb
             Assert.AreEqual("https://devaccount.regentsscholarship.org/regents/education", driver.Url);
         }
 
+        /**
+         * Tests whether the educational information page is functioning correctly
+         */
+        [TestMethod]
+        public void AutomateTestRegentsWebCompleteEducationInformation()
+        {
+            CompletePersonalInformation();
+            CompleteEducationInformation();
+        }
+
+        /**
+         * Closes browser for every automation test that runs concurrently
+         */
         [TestCleanup]
         public void Close()
         {
