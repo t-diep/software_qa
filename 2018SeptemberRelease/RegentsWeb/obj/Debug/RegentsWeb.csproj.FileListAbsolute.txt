@@ -12,3 +12,7 @@ C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\RegentsWeb\obj\Debu
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\RegentsWeb\obj\Debug\RegentsWeb.csproj.CopyComplete
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\RegentsWeb\obj\Debug\RegentsWeb.dll
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\RegentsWeb\obj\Debug\RegentsWeb.pdb
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\RegentsWeb\bin\Debug\WebDriver.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\RegentsWeb\bin\Debug\WebDriver.Support.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\RegentsWeb\bin\Debug\WebDriver.xml
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\RegentsWeb\bin\Debug\WebDriver.Support.xml
