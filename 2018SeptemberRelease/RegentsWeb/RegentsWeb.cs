@@ -32,6 +32,7 @@ namespace RegentsWeb
          * This will test for a negative threshold result (i.e. enter a ACT composite score of 21)
          */
         [TestMethod]
+        [Ignore]
         public void SAMS_672_Negative()
         {
             //The test account credentials to log into
@@ -106,6 +107,82 @@ namespace RegentsWeb
                 //The minimum ACT score error-pop up did not show, which is correct
             }          
         }
+
+        /**
+         * Automate test for the negative result for the minimum GPA requirement for 2019 RS students 
+         * (i.e. test for negative threshold of 2.999 GPA)
+         */
+        [TestMethod]
+        public void SAMS_724_Negative()
+        {
+            //The test account credentials to log into
+            string username = "tdrs070518a";
+            string password = "Welcome01";
+
+            //Log on to RS Web App for given test account credentials 
+            driver.FindElement(By.Name("username")).SendKeys(username);
+            driver.FindElement(By.Name("password")).SendKeys(password);
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]")).Click();
+
+            driver.FindElement(By.Id("applyScholarshipBtn")).Click();
+
+            //Click on the "Educational Information" tab on the top
+            driver.FindElement(By.CssSelector("div:nth-child(1) div:nth-child(3) div.wizard:nth-child(1) ul.steps > li.page_hover_rsnt:nth-child(3)")).Click();
+
+            jexe.ExecuteScript("window.scrollTo(0, 750)");
+
+            IWebElement gpaField = driver.FindElement(By.Id("cumulativeGpa"));
+            gpaField.SendKeys("3.299");
+
+            Assert.IsTrue(driver.FindElement(By.Id("cumulativeGpa-error")).Displayed);
+
+            //Take screenshot of result
+            Screenshot ss = ((ITakesScreenshot)driver).GetScreenshot();
+            ss.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_724_Negative.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Automate test for the positive result for the minimum GPA requirement 
+         * (i.e. minimum GPA positive threshold is at 3.3 GPA)
+         */
+        [TestMethod]
+        public void SAMS_724_Positive()
+        {
+            //The test account credentials to log into
+            string username = "tdrs070518a";
+            string password = "Welcome01";
+
+            //Log on to RS Web App for given test account credentials 
+            driver.FindElement(By.Name("username")).SendKeys(username);
+            driver.FindElement(By.Name("password")).SendKeys(password);
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]")).Click();
+
+            driver.FindElement(By.Id("applyScholarshipBtn")).Click();
+
+            //Click on the "Educational Information" tab on the top
+            driver.FindElement(By.CssSelector("div:nth-child(1) div:nth-child(3) div.wizard:nth-child(1) ul.steps > li.page_hover_rsnt:nth-child(3)")).Click();
+
+            jexe.ExecuteScript("window.scrollTo(0, 750)");
+
+            IWebElement gpaField = driver.FindElement(By.Id("cumulativeGpa"));
+            gpaField.SendKeys("3.3");
+            gpaField.SendKeys(Keys.Tab);
+
+            try
+            {
+                driver.FindElement(By.Id("cumulativeGpa-error"));
+                Assert.Fail("Cumulative GPA error should not show");
+            }
+            catch(Exception)
+            {
+                
+            }
+
+            //Take screenshot of result
+            Screenshot ss = ((ITakesScreenshot)driver).GetScreenshot();
+            ss.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_724_Positive.png", ScreenshotImageFormat.Png);
+        }
+
 
         /**
          * Automate test for inputting an incorrect phone number without stack trace errors
