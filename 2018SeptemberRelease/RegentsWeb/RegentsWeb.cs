@@ -13,6 +13,8 @@ namespace RegentsWeb
     {
         IWebDriver driver;
         IJavaScriptExecutor jexe;
+        const string adminPortal = "http://10.4.1.99";
+        const string regentsWeb = "https://devaccount.regentsscholarship.org/login";
 
         [TestInitialize]
         public void ConfigureRunBrowser()
@@ -24,7 +26,7 @@ namespace RegentsWeb
             driver.Manage().Window.Maximize();
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(70);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(70);
-            driver.Navigate().GoToUrl("https://devaccount.regentsscholarship.org/login");
+            driver.Navigate().GoToUrl(regentsWeb);
         }
 
         /**
@@ -187,10 +189,12 @@ namespace RegentsWeb
          * Automation test for configuring RS Application settings under admin portal for 2018 RS applicants
          */
         [TestMethod]
-        public void SAMS_883_2018_Cohort_Negative()
+        public void SAMS_883_2018_Cohort()
         {   
+            //~NEGATIVE TEST~//
+
             //Go to Admin Portal and log in as admin
-            driver.Navigate().GoToUrl("http://10.4.1.99");
+            driver.Navigate().GoToUrl(adminPortal);
             driver.FindElement(By.Id("username")).SendKeys("admin");
             driver.FindElement(By.Id("password")).SendKeys("Welcome01");
             driver.FindElement(By.XPath("/html[1]/body[1]/div[2]/div[1]/form[1]/span[1]/button[1]")).Click();
@@ -206,16 +210,16 @@ namespace RegentsWeb
             applicationYearField.Clear();
             applicationYearField.SendKeys("2018");
 
-            string deadline = "07/05/2018 23:59:00";
+            string negativeDeadline = "07/05/2018 23:59:00";
 
             IWebElement deadlineField = driver.FindElement(By.Name("finalDeadline"));
             deadlineField.Clear();
-            deadlineField.SendKeys(deadline);
+            deadlineField.SendKeys(negativeDeadline);
             deadlineField.SendKeys(Keys.Enter);
 
             //Save button
             driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/section[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[9]/button[1]")).Click();
-
+            
             //Close successful notification pop-up before logging out
             driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/ul[1]/li[1]/div[1]/button[1]")).Click();
 
@@ -238,8 +242,46 @@ namespace RegentsWeb
             }
 
             //Take screenshot of result
-            Screenshot ss = ((ITakesScreenshot)driver).GetScreenshot();
-            ss.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_883_2018_Negative.png", ScreenshotImageFormat.Png);
+            Screenshot negativeResult = ((ITakesScreenshot)driver).GetScreenshot();
+            negativeResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_883_2018_Negative.png", ScreenshotImageFormat.Png);
+
+            //~END NEGATIVE TEST~//
+
+
+            //~POSITIVE TEST~//
+            driver.Navigate().GoToUrl(adminPortal);
+
+            driver.FindElement(By.Id("username")).SendKeys("admin");
+            driver.FindElement(By.Id("password")).SendKeys("Welcome01");
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[2]/div[1]/form[1]/span[1]/button[1]")).Click();
+
+            //Click on the "Settings" tab on the left
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/aside[1]/nav[1]/ul[1]/li[2]/ul[1]/li[9]/a[1]")).Click();
+
+            string positiveDeadline = "12/09/2018 23:59:00";
+
+            IWebElement deadlineFieldAgain = driver.FindElement(By.Name("finalDeadline"));
+            deadlineFieldAgain.Clear();
+            deadlineFieldAgain.SendKeys(positiveDeadline);
+            deadlineFieldAgain.SendKeys(Keys.Enter);
+
+            //Save button
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/section[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[9]/button[1]")).Click();
+
+            //Close successful notification pop-up before logging out
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/ul[1]/li[1]/div[1]/button[1]")).Click();
+
+            //Logout button
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/header[1]/ul[2]/li[2]/a[1]")).Click();
+
+            //Going to RS Web Application
+            driver.Navigate().GoToUrl("https://devaccount.regentsscholarship.org/login");
+
+            Assert.IsTrue(driver.FindElement(By.Id("signUpId")).Displayed);
+
+            //Take screenshot of result
+            Screenshot positiveResult = ((ITakesScreenshot)driver).GetScreenshot();
+            positiveResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_883_2018_Positive.png", ScreenshotImageFormat.Png);
         }
 
         /**
