@@ -11,3 +11,8 @@ C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\obj
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\obj\Debug\CourseWarehouse.csproj.CopyComplete
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\obj\Debug\CourseWarehouse.dll
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\obj\Debug\CourseWarehouse.pdb
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\WebDriver.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\WebDriver.Support.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\WebDriver.xml
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\bin\Debug\WebDriver.Support.xml
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\CourseWarehouse\obj\Debug\CourseWarehouse.csprojResolveAssemblyReference.cache

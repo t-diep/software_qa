@@ -12,3 +12,7 @@ C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\NewCentury\obj\Debu
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\NewCentury\obj\Debug\NewCentury.csproj.CopyComplete
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\NewCentury\obj\Debug\NewCentury.dll
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\NewCentury\obj\Debug\NewCentury.pdb
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\NewCentury\bin\Debug\WebDriver.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\NewCentury\bin\Debug\WebDriver.Support.dll
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\NewCentury\bin\Debug\WebDriver.xml
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\NewCentury\bin\Debug\WebDriver.Support.xml
