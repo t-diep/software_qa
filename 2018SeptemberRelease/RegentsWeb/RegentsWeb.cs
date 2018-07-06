@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -28,38 +29,45 @@ namespace RegentsWeb
          * Automate test for inputting an incorrect phone number without stack trace errors
          */
         [TestMethod]
-        public void SAMS_915()
+        public void SAMS_907()
         {
-            string currDate = DateTime.Today.ToString("MMddyy");
+            //Test student account credentials
+            string username = "tdrs070318b";
+            string password = "Welcome01";
 
-            string testUsername = "tdrs" + currDate;
+            //Enter given username and password, then click on "Sign in" button
+            driver.FindElement(By.Name("username")).SendKeys(username);
+            driver.FindElement(By.Name("password")).SendKeys(password);
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]")).Click();
 
-            driver.Manage().Cookies.DeleteAllCookies();
+            //Account settings
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/ul[1]/li[5]/a[1]")).Click();
+            
+            //Delete current phone number and enter in a new phone number
+            driver.FindElement(By.Name("phoneNumber")).Clear();
 
-            IWebElement signupButton = driver.FindElement(By.Id("signUpId"));
-            signupButton.Click();
+            //Locate the phone number field and enter in the test incorrect phone number
+            IWebElement phoneNumField = driver.FindElement(By.Name("phoneNumber"));
+            phoneNumField.SendKeys("123-765-4321");
 
-            IWebElement closeVideo = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/div[3]/div[1]/button[1]"));
-            closeVideo.Click();
+            //Close the email or both email and text message pop-up
+            driver.FindElement(By.Id("notifyOption2")).Click();
 
-            //Fill out initial information on login page
-            driver.FindElement(By.Id("username")).SendKeys(testUsername);
-            driver.FindElement(By.Id("password")).SendKeys("Welcome01");
-            driver.FindElement(By.Name("confirm_password")).SendKeys("Welcome01");
-            driver.FindElement(By.Id("firstName")).SendKeys(testUsername);
-            driver.FindElement(By.Id("lastName")).SendKeys(testUsername);
-            driver.FindElement(By.Id("emailAddress")).SendKeys(testUsername + "@hkconsulting.biz");
-            driver.FindElement(By.Name("confirm_email")).SendKeys(testUsername + "@hkconsulting.biz");
-            driver.FindElement(By.Id("phoneNumber")).SendKeys("123-456-7890");
-            driver.FindElement(By.Id("addressLine1")).SendKeys("1273 West Four B Lane");
-            driver.FindElement(By.Id("city")).SendKeys("South Jordan");
-            driver.FindElement(By.Id("stateName")).SendKeys("Utah");
-            driver.FindElement(By.Id("postalCode")).SendKeys("84095");
-            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[3]/form[1]/div[1]/div[14]/div[1]/div[1]/label[1]/input[1]")).Click();
-            driver.FindElement(By.Id("referralSourceId")).SendKeys("Utah Scholars Program");
-   
-            //Click on the "Complete Application" button
-            driver.FindElement(By.Id("startYourApplicationId")).Click();
+            Thread.Sleep(3000);
+
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[2]/div[1]/div[1]/div[3]/button[1]")).Click();
+
+            jexe.ExecuteScript("scroll(0, 600)");
+
+            Thread.Sleep(3000);
+
+            //Click on save button to save changes
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/form[1]/div[3]/button[1]")).Click();
+
+            jexe.ExecuteScript("scroll(0, 0)");
+
+            Assert.IsTrue(driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/ul[1]/li[1]/div[1]")).Displayed);
+            Assert.AreEqual("(123) 765-4321", driver.FindElement(By.Name("phoneNumber")).GetAttribute("value"));
         }
     }
 }
