@@ -7,9 +7,5 @@ namespace CourseWarehouse
     public class CourseWarehouse
     {
 
-        [TestMethod]
-        public void TestMethod1()
-        {
-        }
     }
 }
