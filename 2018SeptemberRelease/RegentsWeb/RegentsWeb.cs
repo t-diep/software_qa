@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.Extensions;
+using OpenQA.Selenium.Support.UI;
 
 namespace RegentsWeb
 {
@@ -34,7 +35,6 @@ namespace RegentsWeb
          * This will test for a negative threshold result (i.e. enter a ACT composite score of 21)
          */
         [TestMethod]
-        [Ignore]
         public void SAMS_672_Negative()
         {
             //The test account credentials to log into
@@ -282,6 +282,17 @@ namespace RegentsWeb
             //Take screenshot of result
             Screenshot positiveResult = ((ITakesScreenshot)driver).GetScreenshot();
             positiveResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_883_2018_Positive.png", ScreenshotImageFormat.Png);
+
+            //~TESTING FOR HOMEPAGE~//
+        }
+
+        /**
+         * Same automation test as SAMS_883_2018_Cohort except it's testing for 2019 cohort applicants
+         */
+        [TestMethod]
+        public void SAMS_883_2019_Cohort()
+        {
+
         }
 
         /**
@@ -331,6 +342,111 @@ namespace RegentsWeb
 
             Assert.IsTrue(driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[1]/div[1]/ul[1]/li[1]/div[1]")).Displayed);
             Assert.AreEqual("(123) 765-4321", driver.FindElement(By.Name("phoneNumber")).GetAttribute("value"));
+        }
+
+        /**
+         * Automate test for forgotten username functionality on RS Web Application
+         */
+        [TestMethod]
+        public void SAMS_918_ForgotUsername()
+        {
+            string invalidEmail = "testinvalidemail@gmail.com";
+            string validEmail = "anthony.tony.diep@gmail.com";
+
+            //~INVALID EMAIL ADDRESS~//
+
+            //Click on "Don't know your username?" hyperlink, then enter in credentials
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/a[1]")).Click();
+            driver.FindElement(By.Id("email")).SendKeys(invalidEmail);
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/form[1]/div[1]/input[1]")).Click();
+
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector("body.modal-open:nth-child(2) div.bootbox.modal.fade.bootbox-alert.in div.modal-dialog div.modal-content div.modal-body div.bootbox-body > div.text-danger")));
+
+            //Verify that the system handles invalid email addresses with a error display pop-up
+            try
+            {
+                string dangerText = driver.FindElement(By.CssSelector("body.modal-open:nth-child(2) div.bootbox.modal.fade.bootbox-alert.in div.modal-dialog div.modal-content div.modal-body div.bootbox-body > div.text-danger")).Text;
+                string expected = "Email Id doesn't match";
+                Assert.AreEqual(expected, dangerText);
+            }
+            catch(Exception)
+            {
+                Assert.Fail("Invalid email should trigger error pop up message");
+            }
+
+            Screenshot invalidEmailResult = ((ITakesScreenshot)driver).GetScreenshot();
+            invalidEmailResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_918_Username_Invalid_Email.png", ScreenshotImageFormat.Png);
+
+            //~END INVALID EMAIL ADDRESS~//
+
+            //~VALID EMAIL ADDRESS~//
+
+            //Close error pop-up, then enter valid email credentials
+            driver.FindElement(By.CssSelector("body.modal-open:nth-child(2) div.bootbox.modal.fade.bootbox-alert.in div.modal-dialog div.modal-content div.modal-footer > button.btn.btn-primary")).Click();
+
+            //Wait until the error-pop up closes before entering the email field again
+            WebDriverWait waitToEnterEmailAgain = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("email")));
+
+            IWebElement emailField = driver.FindElement(By.Id("email"));
+            emailField.Clear();
+            emailField.SendKeys(validEmail);
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/form[1]/div[1]/input[1]")).Click();
+
+            WebDriverWait waitForPopup = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[1]")));
+
+            //Verify that the username notification shows 
+            try
+            {
+                string notification = driver.FindElement(By.XPath("/html[1]/body[1]/div[5]/div[1]/div[1]/div[1]/div[1]/div[1]")).Text;
+                string expected = "Your username will be sent to the email anthony.tony.diep@gmail.com. Please check your email.";
+
+                Assert.AreEqual(expected, notification);
+            }
+            catch(Exception)
+            {
+                Assert.Fail("Notification to find username not showing");
+            }
+
+            Screenshot usernameNotification = ((ITakesScreenshot)driver).GetScreenshot();
+            usernameNotification.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_918_Username_Valid_Email.png", ScreenshotImageFormat.Png);
+
+            //~END VALID EMAIL ADDRESS~//
+        }
+
+        /**
+         * Automate test for forgotten password functionaltity on RS Web Application
+         */
+        [TestMethod]
+        public void SAMS_918_ForgotPassword()
+        {
+            //Click on the "Forgotten Password" link
+            driver.FindElement(By.CssSelector("#loginForm > a:nth-child(9)")).Click();
+
+            //Enter username and click on the reset password button
+            IWebElement usernameField = driver.FindElement(By.Name("username"));
+            usernameField.SendKeys("tdrs070618c");
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/div[1]/input[1]")).Click();
+
+            //Verify that the forgotten password instructions show
+            try
+            {
+                string forgotPassword = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/h6[1]")).Text;
+                string expected = "Please check your email for additional instructions to reset your password.";
+
+                Assert.IsTrue(driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/h6[1]")).Displayed);
+                Assert.AreEqual(expected, forgotPassword);
+            }
+            catch (Exception)
+            {
+                Assert.Fail("Forgot password instructions should display");
+            }
+
+            //Take screenshot of result
+            Screenshot forgottenPasswordResult = ((ITakesScreenshot)driver).GetScreenshot();
+            forgottenPasswordResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_918_Password.png", ScreenshotImageFormat.Png);
         }
 
         /**

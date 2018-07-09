@@ -16,3 +16,4 @@ C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\WebDriver.Support.dll
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\WebDriver.xml
 C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\WebDriver.Support.xml
+C:\Users\antho\Source\Repos\software_qa\2018SeptemberRelease\StudentAdminPortal\bin\Debug\SeleniumExtras.WaitHelpers.dll
