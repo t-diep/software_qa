@@ -31,6 +31,80 @@ namespace RegentsWeb
         }
 
         /**
+         * Automation test for negative threshold for the 2019 RS Minimum GPA requirement
+         * (i.e. test for GPA to be 3.299)
+         */
+        [TestMethod]
+        public void SAMS_671_Negative()
+        {
+            //The test account credentials to log into
+            string username = "tdrs070518a";
+            string password = "Welcome01";
+
+            //Log on to RS Web App for given test account credentials 
+            driver.FindElement(By.Name("username")).SendKeys(username);
+            driver.FindElement(By.Name("password")).SendKeys(password);
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]")).Click();
+
+            driver.FindElement(By.Id("applyScholarshipBtn")).Click();
+
+            //Click on the "Educational Information" tab on the top
+            driver.FindElement(By.CssSelector("div:nth-child(1) div:nth-child(3) div.wizard:nth-child(1) ul.steps > li.page_hover_rsnt:nth-child(3)")).Click();
+
+            jexe.ExecuteScript("window.scrollTo(0, 750)");
+
+            IWebElement gpaField = driver.FindElement(By.Id("cumulativeGpa"));
+            gpaField.SendKeys("3.299");
+            gpaField.SendKeys(Keys.Enter);
+
+            try
+            {
+                IWebElement gpaError = driver.FindElement(By.CssSelector("div.bootbox.modal.fade.danger.in:nth-child(4) div.modal-dialog div.modal-content div.modal-body div.bootbox-body > span:nth-child(1)"));
+                Assert.IsTrue(gpaError.Displayed);
+            }
+            catch(Exception)
+            {
+                Assert.Fail("GPA Error popup should show for GPA less than 3.3");
+            }
+
+            //Take screenshot of result
+            Screenshot minGPANegativeResult = ((ITakesScreenshot)driver).GetScreenshot();
+            minGPANegativeResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_671_Negative.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Automation test for positive threshold for the 2019 RS Minimum GPA requirement
+         * (i.e. test for GPA to be 3.3)
+         */
+        [TestMethod]
+        public void SAMS_671_Positive()
+        {
+            //The test account credentials to log into
+            string username = "tdrs070518a";
+            string password = "Welcome01";
+
+            //Log on to RS Web App for given test account credentials 
+            driver.FindElement(By.Name("username")).SendKeys(username);
+            driver.FindElement(By.Name("password")).SendKeys(password);
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]")).Click();
+
+            driver.FindElement(By.Id("applyScholarshipBtn")).Click();
+
+            //Click on the "Educational Information" tab on the top
+            driver.FindElement(By.CssSelector("div:nth-child(1) div:nth-child(3) div.wizard:nth-child(1) ul.steps > li.page_hover_rsnt:nth-child(3)")).Click();
+
+            jexe.ExecuteScript("window.scrollTo(0, 750)");
+
+            IWebElement gpaField = driver.FindElement(By.Id("cumulativeGpa"));
+            gpaField.SendKeys("3.3");
+            gpaField.SendKeys(Keys.Tab);
+
+            //Take screenshot of result
+            Screenshot minGPANegativeResult = ((ITakesScreenshot)driver).GetScreenshot();
+            minGPANegativeResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_671_Positive.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
          * Automate test for verifying the minimum ACT composite score for 2019 RS students is 22
          * This will test for a negative threshold result (i.e. enter a ACT composite score of 21)
          */
@@ -135,12 +209,14 @@ namespace RegentsWeb
 
             IWebElement gpaField = driver.FindElement(By.Id("cumulativeGpa"));
             gpaField.SendKeys("3.299");
+            gpaField.SendKeys(Keys.Enter);
 
-            Assert.IsTrue(driver.FindElement(By.Id("cumulativeGpa-error")).Displayed);
+            IWebElement gpaTooLowError = driver.FindElement(By.CssSelector("div.bootbox.modal.fade.danger.in:nth-child(4) div.modal-dialog div.modal-content div.modal-header > h4.modal-title"));           
+            Assert.IsTrue(gpaTooLowError.Displayed);
 
             //Take screenshot of result
-            Screenshot ss = ((ITakesScreenshot)driver).GetScreenshot();
-            ss.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_724_Negative.png", ScreenshotImageFormat.Png);
+            Screenshot negativeTestResult = ((ITakesScreenshot)driver).GetScreenshot();
+            negativeTestResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_724_Negative.png", ScreenshotImageFormat.Png);
         }
 
         /**
@@ -164,7 +240,7 @@ namespace RegentsWeb
             //Click on the "Educational Information" tab on the top
             driver.FindElement(By.CssSelector("div:nth-child(1) div:nth-child(3) div.wizard:nth-child(1) ul.steps > li.page_hover_rsnt:nth-child(3)")).Click();
 
-            jexe.ExecuteScript("window.scrollTo(0, 750)");
+            jexe.ExecuteScript("scroll(0, 750)");
 
             IWebElement gpaField = driver.FindElement(By.Id("cumulativeGpa"));
             gpaField.SendKeys("3.3");
@@ -172,6 +248,7 @@ namespace RegentsWeb
 
             try
             {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
                 driver.FindElement(By.Id("cumulativeGpa-error"));
                 Assert.Fail("Cumulative GPA error should not show");
             }
@@ -283,7 +360,19 @@ namespace RegentsWeb
             Screenshot positiveResult = ((ITakesScreenshot)driver).GetScreenshot();
             positiveResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_883_2018_Positive.png", ScreenshotImageFormat.Png);
 
-            //~TESTING FOR HOMEPAGE~//
+            //~FILL OUT INITIAL FORM AND HITTING CONTINUE~//
+            driver.FindElement(By.Name("username")).SendKeys("tdrs070918e");
+            driver.FindElement(By.Name("password")).SendKeys("Welcome01");
+            driver.FindElement(By.CssSelector("div.wrapper div:nth-child(2) div:nth-child(1) div.login:nth-child(3) form.login-form > input.primary:nth-child(6)")).Click();
+            driver.FindElement(By.Id("applyScholarshipBtn")).Click();
+
+            string header = driver.FindElement(By.CssSelector("div:nth-child(1) div:nth-child(3) div.row.step-pane.active:nth-child(2) div.col-lg-12 > h2.color-title:nth-child(1)")).Text;
+
+            Assert.IsTrue(header.Contains("2018"));
+
+            //Take screenshot of result
+            Screenshot positiveResult2018 = ((ITakesScreenshot)driver).GetScreenshot();
+            positiveResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_883_2019_Positive.png", ScreenshotImageFormat.Png);
         }
 
         /**
@@ -292,7 +381,107 @@ namespace RegentsWeb
         [TestMethod]
         public void SAMS_883_2019_Cohort()
         {
+            //~NEGATIVE TEST~//
 
+            //Go to Admin Portal and log in as admin
+            driver.Navigate().GoToUrl(adminPortal);
+            driver.FindElement(By.Id("username")).SendKeys("admin");
+            driver.FindElement(By.Id("password")).SendKeys("Welcome01");
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[2]/div[1]/form[1]/span[1]/button[1]")).Click();
+
+            //Click on the "Settings" tab on the left
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/aside[1]/nav[1]/ul[1]/li[2]/ul[1]/li[9]/a[1]")).Click();
+
+            IWebElement academicYearField = driver.FindElement(By.Name("academicYear"));
+            academicYearField.Clear();
+            academicYearField.SendKeys("2019");
+
+            IWebElement applicationYearField = driver.FindElement(By.Name("applicationYear"));
+            applicationYearField.Clear();
+            applicationYearField.SendKeys("2019");
+
+            string negativeDeadline = "07/05/2019 23:59:00";
+
+            IWebElement deadlineField = driver.FindElement(By.Name("finalDeadline"));
+            deadlineField.Clear();
+            deadlineField.SendKeys(negativeDeadline);
+            deadlineField.SendKeys(Keys.Enter);
+
+            //Save button
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/section[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[9]/button[1]")).Click();
+
+            //Close successful notification pop-up before logging out
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/ul[1]/li[1]/div[1]/button[1]")).Click();
+
+            //Logout button
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/header[1]/ul[2]/li[2]/a[1]")).Click();
+
+            //Going to RS Web Application
+            driver.Navigate().GoToUrl("https://devaccount.regentsscholarship.org/login");
+
+            //Verify that the New Scholarship button is not there
+            try
+            {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+                driver.FindElement(By.Id("signUpId"));
+                Assert.Fail("New Application button should not be shown");
+            }
+            catch (Exception)
+            {
+                //New Application button not showing as expected
+            }
+
+            //Take screenshot of result
+            Screenshot negativeResult = ((ITakesScreenshot)driver).GetScreenshot();
+            negativeResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_883_2018_Negative.png", ScreenshotImageFormat.Png);
+
+            //~END NEGATIVE TEST~//
+
+
+            //~POSITIVE TEST~//
+            driver.Navigate().GoToUrl(adminPortal);
+
+            driver.FindElement(By.Id("username")).SendKeys("admin");
+            driver.FindElement(By.Id("password")).SendKeys("Welcome01");
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[2]/div[1]/form[1]/span[1]/button[1]")).Click();
+
+            //Click on the "Settings" tab on the left
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/aside[1]/nav[1]/ul[1]/li[2]/ul[1]/li[9]/a[1]")).Click();
+
+            string positiveDeadline = "12/09/2019 23:59:00";
+
+            IWebElement deadlineFieldAgain = driver.FindElement(By.Name("finalDeadline"));
+            deadlineFieldAgain.Clear();
+            deadlineFieldAgain.SendKeys(positiveDeadline);
+            deadlineFieldAgain.SendKeys(Keys.Enter);
+
+            //Save button
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/section[1]/div[1]/div[1]/div[1]/div[2]/form[1]/div[9]/button[1]")).Click();
+
+            //Close successful notification pop-up before logging out
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/ul[1]/li[1]/div[1]/button[1]")).Click();
+
+            //Logout button
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/header[1]/ul[2]/li[2]/a[1]")).Click();
+
+            //Going to RS Web Application
+            driver.Navigate().GoToUrl("https://devaccount.regentsscholarship.org/login");
+
+            Assert.IsTrue(driver.FindElement(By.Id("signUpId")).Displayed);
+
+            //~FILL OUT INITIAL FORM AND HITTING CONTINUE~//
+            driver.FindElement(By.Name("username")).SendKeys("tdrs070918f");
+            driver.FindElement(By.Name("password")).SendKeys("Welcome01");
+            driver.FindElement(By.CssSelector("div.wrapper div:nth-child(2) div:nth-child(1) div.login:nth-child(3) form.login-form > input.primary:nth-child(6)")).Click();
+            driver.FindElement(By.Id("applyScholarshipBtn")).Click();
+
+            string header = driver.FindElement(By.CssSelector("div:nth-child(1) div:nth-child(3) div.row.step-pane.active:nth-child(2) div.col-lg-12 > h2.color-title:nth-child(1)")).Text;
+
+            Assert.IsTrue(header.Contains("2019"));
+
+            //Take screenshot of result
+            Screenshot positiveResult = ((ITakesScreenshot)driver).GetScreenshot();
+            positiveResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_883_2019_Positive.png", ScreenshotImageFormat.Png);
         }
 
         /**
