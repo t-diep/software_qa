@@ -105,6 +105,53 @@ namespace RegentsWeb
         }
 
         /**
+         * Automation test to verify the new text changes for the FAFSA questions on RS Web
+         */
+        [TestMethod]
+        public void SAMS_674()
+        {
+            string username = "tdrs070518a";
+            string password = "Welcome01";
+
+            driver.FindElement(By.Name("username")).SendKeys(username);
+            driver.FindElement(By.Name("password")).SendKeys(password);
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]")).Click();
+            driver.FindElement(By.Id("applyScholarshipBtn")).Click();
+
+            driver.FindElement(By.CssSelector("div:nth-child(3) div.wizard:nth-child(1) ul.steps li.black_div.page_hover_rs:nth-child(2) > a:nth-child(1)")).Click();
+            driver.FindElement(By.CssSelector("body:nth-child(2) div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable:nth-child(4) div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix:nth-child(3) div.ui-dialog-buttonset > button:nth-child(1)")).Click();
+
+            jexe.ExecuteScript("scroll(0, 750)");
+
+            string fafsaText = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/form[1]/div[14]/div[2]/div[1]/div[1]/span[1]")).Text;
+            string expected = "I understand that I must complete and submit the Free Application for Federal Student Aid (FAFSA) by (coded application deadline) or by (coded priority application deadline) to meet the priority deadline.";
+
+            //Verify the correct fafsa text
+            Assert.AreEqual(expected, fafsaText);
+
+            //Click on the "Save and Continue" button
+            driver.FindElement(By.CssSelector("section.fuelux:nth-child(3) div.step-content div.step-pane.active form:nth-child(1) div.row.button_bottom_align:nth-child(15) > button.pull-right.btn.btn-primary.position.btn-next")).Click();
+
+            //Verify the error pop-up for not checking the fafsa checkbox is displayed
+            Assert.IsTrue(driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/form[1]/div[14]/div[2]/div[1]/div[1]/label[1]")).Displayed);
+
+            //Save screenshot for negative result
+            Screenshot uncheckedBoxResult = ((ITakesScreenshot)driver).GetScreenshot();
+            uncheckedBoxResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_674_Negative.png", ScreenshotImageFormat.Png);
+
+            driver.FindElement(By.Name("agreeTerms")).Click();
+
+            //Click on the "Save and Continue" button
+            driver.FindElement(By.CssSelector("section.fuelux:nth-child(3) div.step-content div.step-pane.active form:nth-child(1) div.row.button_bottom_align:nth-child(15) > button.pull-right.btn.btn-primary.position.btn-next")).Click();
+
+            Assert.IsTrue(driver.Url == "https://devaccount.regentsscholarship.org/regents/education");
+
+            //Save screenshot for positive result
+            Screenshot checkedBoxResult = ((ITakesScreenshot)driver).GetScreenshot();
+            checkedBoxResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_674_Positive.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
          * Automate test for verifying the minimum ACT composite score for 2019 RS students is 22
          * This will test for a negative threshold result (i.e. enter a ACT composite score of 21)
          */
