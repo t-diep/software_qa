@@ -24,19 +24,15 @@ namespace StudentAdminPortal
             driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(70);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(70);
             driver.Navigate().GoToUrl(adminPortal);
-        }
 
-        //~PRIVATE METHODS~//
-        
-        /**
-         * Helper to log onto admin portal for convienience 
-         */
-        private void LoginAsAdmin()
-        {
+            //Login to the Student Admin Portal
             driver.FindElement(By.Id("username")).SendKeys("admin");
             driver.FindElement(By.Id("password")).SendKeys("Welcome01");
             driver.FindElement(By.Id("password")).SendKeys(Keys.Enter);
         }
+
+        //~PRIVATE METHODS~//
+       
 
         //~END PRIVATE METHODS~//
 
@@ -48,9 +44,25 @@ namespace StudentAdminPortal
         [TestMethod]
         public void VerifyLogin()
         {
-            LoginAsAdmin();
-
             Assert.IsTrue(driver.Url == "http://10.4.1.99/user/dashboard");
+        }
+
+        /**
+         * Automation test for verifying the reviewer drop-down error has been fixed
+         */
+        [TestMethod]
+        public void SAMS_915()
+        {
+            driver.FindElement(By.LinkText("Students")).Click();
+
+            IWebElement acctNumberField = driver.FindElement(By.Id("accountNumber"));
+            acctNumberField.SendKeys("RS19100172");
+            acctNumberField.SendKeys(Keys.Enter);
+            driver.FindElement(By.CssSelector("body.pace-done:nth-child(2) section.theme-default section.main-content-wrapper:nth-child(3) div.row.student-search div.col-md-12 div.panel.panel-success:nth-child(2) div.col-lg-12.background_main_bg div.bs-example div.dataTables_wrapper.no-footer table.display.dataTable.no-footer tbody:nth-child(2) tr.odd td.sorting_1:nth-child(1) > a.btn.btn-primary")).Click();
+            driver.FindElement(By.LinkText("App Info")).Click();
+
+            IWebElement innerScrollMenu = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/form[1]/div[1]/div[2]"));
+            innerScrollMenu.SendKeys(Keys.Down);
         }
     }
 }
