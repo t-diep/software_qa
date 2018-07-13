@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -116,6 +117,98 @@ namespace NewCentury
             //Take screenshot of application open result
             Screenshot positiveTestResult = ((ITakesScreenshot)driver).GetScreenshot();
             positiveTestResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_882_ApplicationOpen.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Automation test for verifying all of the anomalities in the NC Web Application
+         */
+        [TestMethod]
+        public void SAMS_921()
+        {
+            //Verify that SAMS_882 is working first
+            SAMS_882_Negative();
+            SAMS_882_Positive();
+
+            //Click on the Start New Application button
+            IWebElement signUpButton = driver.FindElement(By.CssSelector("body.login_bg_body:nth-child(2) div.header-content div.header-content-inner div:nth-child(1) div.col-sm-4.form-container.form-group:nth-child(3) form.login-form > button.btn.btn-success.btn-signup:nth-child(11)"));
+            signUpButton.Click();
+
+            //Close the video pop-up screen
+            IWebElement closeVideoButton = driver.FindElement(By.CssSelector("body.login_bg_body:nth-child(2) div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable:nth-child(16) div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix:nth-child(3) div.ui-dialog-buttonset button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only > span.ui-button-text"));
+            closeVideoButton.Click();
+
+            //Scroll to the bottom of the page
+            jexe.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
+
+            //Click on the continue application button
+            IWebElement continueApplicationButton = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/button[1]"));
+            continueApplicationButton.Click();
+
+            //To test against
+            HashSet<String> fieldErrors = new HashSet<String>();
+            fieldErrors.Add("Please enter a username");
+            fieldErrors.Add("Please provide a password");
+            fieldErrors.Add("Please enter your firstname");
+            fieldErrors.Add("Please enter your lastname");
+            fieldErrors.Add("Please enter a valid email address");
+            fieldErrors.Add("Please confirm a valid email address");
+            fieldErrors.Add("Please enter address line 1");
+            fieldErrors.Add("Please enter city");
+            fieldErrors.Add("Please select state");
+            fieldErrors.Add("Please enter zip");
+
+            //Verify that all of the blank field errors appear
+            try
+            {
+                IWebElement usernameError = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/label[1]"));
+                string usernameErrorLabel = usernameError.Text;
+                Assert.IsTrue(fieldErrors.Contains(usernameErrorLabel));
+
+                IWebElement passwordError = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/label[2]"));
+                string passwordErrorLabel = passwordError.Text;
+                Assert.IsTrue(fieldErrors.Contains(passwordErrorLabel));
+
+                IWebElement firstNameError = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/label[4]"));
+                string firstNameErrorLabel = firstNameError.Text;
+                Assert.IsTrue(fieldErrors.Contains(firstNameErrorLabel));
+
+                IWebElement lastNameError = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/label[5]"));
+                string lastNameErrorLabel = lastNameError.Text;
+                Assert.IsTrue(fieldErrors.Contains(lastNameErrorLabel));
+
+                IWebElement emailAddressError = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/label[7]"));
+                string emailAddressErrorLabel = emailAddressError.Text;
+                Assert.IsTrue(fieldErrors.Contains(emailAddressErrorLabel));
+
+                IWebElement confirmEmailError = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/label[8]"));
+                string confirmEmailErrorLabel = confirmEmailError.Text;
+                Assert.IsTrue(fieldErrors.Contains(confirmEmailErrorLabel));
+
+                IWebElement phoneNumberError = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/label[9]"));
+                string phoneNumberErrorLabel = phoneNumberError.Text;
+                Assert.IsTrue(fieldErrors.Contains(phoneNumberErrorLabel));
+
+                IWebElement addressLineError = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/label[10]"));
+                string addressLineErrorLabel = addressLineError.Text;
+                Assert.IsTrue(fieldErrors.Contains(addressLineErrorLabel));
+
+                IWebElement cityLineError = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/label[11]"));
+                string cityLineErrorLabel = cityLineError.Text;
+                Assert.IsTrue(fieldErrors.Contains(cityLineErrorLabel));
+
+                IWebElement stateLineError = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/label[12]"));
+                string stateLineErrorLabel = stateLineError.Text;
+                Assert.IsTrue(fieldErrors.Contains(stateLineErrorLabel));
+
+                IWebElement zipCodeError = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/label[13]"));
+                string zipCodeErrorLabel = zipCodeError.Text;
+                Assert.IsTrue(fieldErrors.Contains(zipCodeErrorLabel));
+
+            }
+            catch(Exception)
+            {
+
+            }
         }
 
         /**
