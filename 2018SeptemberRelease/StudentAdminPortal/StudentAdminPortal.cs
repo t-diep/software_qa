@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -50,6 +53,99 @@ namespace StudentAdminPortal
         }
 
         /**
+         * Automation test for pulling the New "Application By College Choice" report
+         */
+        [TestMethod]
+        public void SAMS_785()
+        {
+            //Click on the "Reports" tab on the left
+            IWebElement reportsTab = driver.FindElement(By.LinkText("Reports"));
+            reportsTab.Click();
+
+            //Choose the "Applications By College Choice Report" 
+            IWebElement reportType = driver.FindElement(By.Name("code"));
+            reportType.SendKeys("Applications By College Choice Report");
+
+            //Choose the 2019 cohort year
+            IWebElement yearField = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[2]/form[1]/div[1]/div[5]/div[1]/select[1]"));
+            yearField.SendKeys("2019");
+
+            //Click on "Generate" button
+            IWebElement generateButton = driver.FindElement(By.Id("btnId"));
+            generateButton.Click();
+
+            //Take screenshot of result; the result should be a list of students
+            Screenshot appCollegeChoiceReportResult = ((ITakesScreenshot)driver).GetScreenshot();
+            appCollegeChoiceReportResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_785_AppCollegeChoiceReportResult.png", ScreenshotImageFormat.Png);
+
+            //For verifying the exact needed columns when pulling the report
+            HashSet<String> columns = new HashSet<String>();
+            columns.Add("Regents Acccount Number");
+            columns.Add("Last Name");
+            columns.Add("First Name");
+            columns.Add("Last 4 of SSN");
+            columns.Add("DOB");
+            columns.Add("Highschool");
+            columns.Add("College Preference");
+            columns.Add("EFC Amount");
+
+            //Verifying actual column results when pulling the report
+            try
+            {
+                IWebElement regentsAcctNum = driver.FindElement(By.CssSelector("body.pace-done:nth-child(2) section.theme-default section.main-content-wrapper:nth-child(3) div.row:nth-child(3) div.col-lg-12 div.col-md-12:nth-child(4) div.panel.panel-success div.row div.col-lg-12 div.bs-example div.dataTables_wrapper.no-footer table.display.dataTable.no-footer thead:nth-child(1) tr:nth-child(1) > th.sorting:nth-child(2)"));
+                string regentsAcctNumLabel = regentsAcctNum.Text;
+                Assert.IsTrue(columns.Contains(regentsAcctNumLabel));
+
+                IWebElement lastName = driver.FindElement(By.CssSelector("body.pace-done:nth-child(2) section.theme-default section.main-content-wrapper:nth-child(3) div.row:nth-child(3) div.col-lg-12 div.col-md-12:nth-child(4) div.panel.panel-success div.row div.col-lg-12 div.bs-example div.dataTables_wrapper.no-footer table.display.dataTable.no-footer thead:nth-child(1) tr:nth-child(1) > th.sorting:nth-child(3)"));
+                string lastNameLabel = lastName.Text;
+                Assert.IsTrue(columns.Contains(lastNameLabel));
+
+                IWebElement firstName = driver.FindElement(By.CssSelector("body.pace-done:nth-child(2) section.theme-default section.main-content-wrapper:nth-child(3) div.row:nth-child(3) div.col-lg-12 div.col-md-12:nth-child(4) div.panel.panel-success div.row div.col-lg-12 div.bs-example div.dataTables_wrapper.no-footer table.display.dataTable.no-footer thead:nth-child(1) tr:nth-child(1) > th.sorting:nth-child(4)"));
+                string firstNameLabel = firstName.Text;
+                Assert.IsTrue(columns.Contains(firstNameLabel));
+
+                IWebElement last4SSN = driver.FindElement(By.CssSelector("body.pace-done:nth-child(2) section.theme-default section.main-content-wrapper:nth-child(3) div.row:nth-child(3) div.col-lg-12 div.col-md-12:nth-child(4) div.panel.panel-success div.row div.col-lg-12 div.bs-example div.dataTables_wrapper.no-footer table.display.dataTable.no-footer thead:nth-child(1) tr:nth-child(1) > th.sorting:nth-child(5)"));
+                string last4SSNLabel = last4SSN.Text;
+                Assert.IsTrue(columns.Contains(last4SSNLabel));
+
+                IWebElement dob = driver.FindElement(By.CssSelector("body.pace-done:nth-child(2) section.theme-default section.main-content-wrapper:nth-child(3) div.row:nth-child(3) div.col-lg-12 div.col-md-12:nth-child(4) div.panel.panel-success div.row div.col-lg-12 div.bs-example div.dataTables_wrapper.no-footer table.display.dataTable.no-footer thead:nth-child(1) tr:nth-child(1) > th.sorting:nth-child(6)"));
+                string dobLabel = dob.Text;
+                Assert.IsTrue(columns.Contains(dobLabel));
+
+                IWebElement highSchool = driver.FindElement(By.CssSelector("body.pace-done:nth-child(2) section.theme-default section.main-content-wrapper:nth-child(3) div.row:nth-child(3) div.col-lg-12 div.col-md-12:nth-child(4) div.panel.panel-success div.row div.col-lg-12 div.bs-example div.dataTables_wrapper.no-footer table.display.dataTable.no-footer thead:nth-child(1) tr:nth-child(1) > th.sorting:nth-child(7)"));
+                string highSchoolLabel = highSchool.Text;
+                Assert.IsTrue(columns.Contains(highSchoolLabel));
+
+                IWebElement collegePref = driver.FindElement(By.CssSelector("body.pace-done:nth-child(2) section.theme-default section.main-content-wrapper:nth-child(3) div.row:nth-child(3) div.col-lg-12 div.col-md-12:nth-child(4) div.panel.panel-success div.row div.col-lg-12 div.bs-example div.dataTables_wrapper.no-footer table.display.dataTable.no-footer thead:nth-child(1) tr:nth-child(1) > th.sorting:nth-child(8)"));
+                string collegePrefLabel = collegePref.Text;
+                Assert.IsTrue(columns.Contains(collegePrefLabel));
+
+                IWebElement efcAmt = driver.FindElement(By.CssSelector("body.pace-done:nth-child(2) section.theme-default section.main-content-wrapper:nth-child(3) div.row:nth-child(3) div.col-lg-12 div.col-md-12:nth-child(4) div.panel.panel-success div.row div.col-lg-12 div.bs-example div.dataTables_wrapper.no-footer table.display.dataTable.no-footer thead:nth-child(1) tr:nth-child(1) > th.sorting:nth-child(9)"));
+                string efcAmtLabel = efcAmt.Text;
+                Assert.IsTrue(columns.Contains(efcAmtLabel));
+            }
+            catch (Exception)
+            {
+                Assert.Fail("Not all of the necessary columns are displayed on the report");
+            }
+
+            //Verifying if the excel spreadsheet was downloaded successfully when pressing the "Excel" button
+            string pathToReport = "C:\\Users\\antho\\Downloads\\ApplicationsByCollegeChoiceReport.xls";
+
+            if(File.Exists(pathToReport))
+            {
+                File.Delete(pathToReport);               
+            }
+
+            IWebElement excelButton = driver.FindElement(By.Id("excelButton"));
+            excelButton.Click();
+
+            //Take screenshot of successfully downloaded excel spreadsheet
+            Screenshot excelFileDownloadResult = ((ITakesScreenshot)driver).GetScreenshot();
+            excelFileDownloadResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_785_ExcelSpreadsheet.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
          * Automation test for verifying the reviewer drop-down error has been fixed
          */
         [TestMethod]
@@ -62,7 +158,7 @@ namespace StudentAdminPortal
             acctNumberField.SendKeys(Keys.Enter);
             driver.FindElement(By.CssSelector("body.pace-done:nth-child(2) section.theme-default section.main-content-wrapper:nth-child(3) div.row.student-search div.col-md-12 div.panel.panel-success:nth-child(2) div.col-lg-12.background_main_bg div.bs-example div.dataTables_wrapper.no-footer table.display.dataTable.no-footer tbody:nth-child(2) tr.odd td.sorting_1:nth-child(1) > a.btn.btn-primary")).Click();
 
-            WebDriverWait waitForAppInfo = new WebDriverWait(driver, TimeSpan.FromSeconds(100));
+            WebDriverWait waitForAppInfo = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             IWebElement appInfo = waitForAppInfo.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/ul[1]/li[3]/a[1]")));
             appInfo.Click();
 
