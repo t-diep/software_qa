@@ -13,6 +13,7 @@ namespace NewCentury
         IJavaScriptExecutor jexe;
         const string adminPortal = "http://10.4.1.99";
         const string newCenturyWeb = "https://devaccount.newcenturyscholarship.org/login";
+        const string alphabet = "abcdefghijklmnopqrstuvwxyz";
 
         [TestInitialize]
         public void ConfigureRunBrowser()
@@ -209,6 +210,46 @@ namespace NewCentury
             {
 
             }
+        }
+
+        /**
+         * Automation test for NC Smoke Test Happy Path
+         */
+        [TestMethod]
+        public void SAMS_922()
+        {
+            IWebElement startNewApplicationButton = driver.FindElement(By.CssSelector("#signUpId"));
+            startNewApplicationButton.Click();
+
+            IWebElement closeVideoPopup = driver.FindElement(By.CssSelector("body.login_bg_body:nth-child(2) div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable:nth-child(16) div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix:nth-child(3) div.ui-dialog-buttonset button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only > span.ui-button-text"));
+            closeVideoPopup.Click();
+
+            string username = "tdrs" + DateTime.Now.ToString("MM/dd/yy") + alphabet[0];
+            string password = "Welcome01";
+            string email = username + "@hkconsulting.biz";
+            string phoneNumber = "(500) 555-0006";
+            string address = "1273 West Four B Lane";
+            string city = "South Jordan";
+            string zipCode = "84095";
+
+            //Fill out form
+            driver.FindElement(By.Id("username")).SendKeys(username);
+            driver.FindElement(By.Id("password")).SendKeys(password);
+            driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/input[3]")).SendKeys(password);
+            driver.FindElement(By.Id("firstName")).SendKeys(username);
+            driver.FindElement(By.Id("middleName")).SendKeys(username);
+            driver.FindElement(By.Id("lastName")).SendKeys(username);
+            driver.FindElement(By.Id("emailAddress")).SendKeys(email);
+            driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/input[8]")).SendKeys(email);
+            driver.FindElement(By.Id("phoneNumber")).SendKeys(phoneNumber);
+            driver.FindElement(By.Id("addressLine1")).SendKeys(address);
+            driver.FindElement(By.Id("City")).SendKeys(city);
+            driver.FindElement(By.Id("stateName")).SendKeys("Utah");
+            driver.FindElement(By.Id("postalCode")).SendKeys(zipCode);
+
+            //Click on the Continue Application button
+            driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[2]/div[1]/form[1]/button[1]")).Click();
+            
         }
 
         /**
