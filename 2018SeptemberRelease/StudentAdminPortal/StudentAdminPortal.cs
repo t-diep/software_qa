@@ -17,6 +17,7 @@ namespace StudentAdminPortal
         IJavaScriptExecutor jexe;
         const string adminPortal = "http://10.4.1.99";
         const string regentsWeb = "https://devaccount.regentsscholarship.org/login";
+        const string alphabet = "abcdefghijklmnopqrstuvwxyz";
 
         [TestInitialize]
         public void ConfigureRunBrowser()
@@ -143,6 +144,50 @@ namespace StudentAdminPortal
             //Take screenshot of successfully downloaded excel spreadsheet
             Screenshot excelFileDownloadResult = ((ITakesScreenshot)driver).GetScreenshot();
             excelFileDownloadResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_785_ExcelSpreadsheet.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Automation test for verifying whether the data entered in the RS Web Application matches 
+         * the data in the admin portal
+         */
+        [TestMethod]
+        public void SAMS_887()
+        {
+            driver.Navigate().GoToUrl(regentsWeb);
+
+            string username = "tdrs060818b";
+            string password = "Welcome01";
+
+            IWebElement usernameField = driver.FindElement(By.Name("username"));
+            usernameField.SendKeys(username);
+
+            IWebElement passwordField = driver.FindElement(By.Name("password"));
+            passwordField.SendKeys(password);
+
+            IWebElement signInButton = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]"));
+            signInButton.Click();
+
+            IWebElement completeApplicationButton = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[2]/div[1]/div[2]/div[2]/ul[1]/li[1]/div[2]/button[1]"));
+            completeApplicationButton.Click();
+
+            IWebElement educationInfoTab = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[1]/ul[1]/li[3]"));
+            educationInfoTab.Click();
+
+            IWebElement collegeDropDown = driver.FindElement(By.Name("collegeId"));
+
+            Actions goToCollegeDropDown = new Actions(driver);
+            goToCollegeDropDown.MoveToElement(collegeDropDown);
+            goToCollegeDropDown.Click().Build().Perform();
+
+            try
+            {
+                IWebElement deferOption = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/form[1]/div[13]/div[1]/select[1]/option[4]"));
+                Assert.IsTrue(deferOption.Displayed);
+            }
+            catch (Exception)
+            {
+                Assert.Fail("Defer option should show for college/university drop down");
+            }
         }
 
         /**
