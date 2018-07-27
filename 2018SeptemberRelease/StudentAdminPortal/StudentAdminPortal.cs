@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -262,6 +263,69 @@ namespace StudentAdminPortal
             //Take screenshot of the correct reviewer label
             Screenshot reviewerLabelResult = ((ITakesScreenshot)driver).GetScreenshot();
             reviewerLabelResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_915_ReviewerLabel.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Automation test for verifying the correct columns for the NC Annual Report columns
+         */
+        [TestMethod]
+        public void SAMS_923()
+        {
+            IWebElement ncReportsTab = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/aside[1]/nav[1]/ul[1]/li[3]/ul[1]/li[7]/a[1]"));
+            ncReportsTab.Click();
+
+            IWebElement reportSelector = driver.FindElement(By.Id("code"));
+            reportSelector.SendKeys("Annual Report");
+
+            IWebElement yearSelector = driver.FindElement(By.Id("year"));
+            yearSelector.SendKeys("2019");
+
+            IWebElement generateButton = driver.FindElement(By.Id("btnId"));
+            generateButton.Click();
+
+            ArrayList columns = new ArrayList();
+            columns.Add("District");
+            columns.Add("High School");
+            columns.Add("Total # of Applicants");
+            columns.Add("Recipients");
+            columns.Add("Non-Eligible Applicants");
+            columns.Add("Pending");
+
+            ArrayList actualColumns = new ArrayList();
+
+            try
+            {
+                IWebElement firstColumn = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[3]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/table[1]/thead[1]/tr[1]/th[2]"));
+                actualColumns.Add(firstColumn.Text);
+
+                IWebElement secondColumn = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[3]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/table[1]/thead[1]/tr[1]/th[3]"));
+                actualColumns.Add(secondColumn.Text);
+
+                IWebElement thirdColumn = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[3]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/table[1]/thead[1]/tr[1]/th[4]"));
+                actualColumns.Add(thirdColumn.Text);
+
+                IWebElement fourthColumn = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[3]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/table[1]/thead[1]/tr[1]/th[5]"));
+                actualColumns.Add(fourthColumn.Text);
+
+                IWebElement fifthColumn = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[3]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/table[1]/thead[1]/tr[1]/th[6]"));
+                actualColumns.Add(fifthColumn.Text);
+
+                IWebElement sixColumn = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[3]/div[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[1]/table[1]/thead[1]/tr[1]/th[7]"));
+                actualColumns.Add(sixColumn.Text);
+            }
+            catch(Exception)
+            {
+                Assert.Fail("NC Annual Report doesn't have exact correct columns");
+            }
+
+            for(int index = 0; index < 6; index++)
+            {
+                Assert.IsTrue(actualColumns[index].Equals(columns[index]));
+            }
+
+            //Take screenshot of NC Annual Report and its correct columns
+            Screenshot ncAnnualReportColumns = ((ITakesScreenshot)driver).GetScreenshot();
+            ncAnnualReportColumns.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_923_NCAnnualReportCorrectColumns.png", ScreenshotImageFormat.Png);
         }
 
         /**
