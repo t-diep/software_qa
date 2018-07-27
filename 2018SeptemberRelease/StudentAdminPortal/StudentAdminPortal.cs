@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -188,6 +189,10 @@ namespace StudentAdminPortal
             {
                 Assert.Fail("Defer option should show for college/university drop down");
             }
+
+            //Take screenshot of defer option showing up
+            Screenshot deferOptionResult = ((ITakesScreenshot)driver).GetScreenshot();
+            deferOptionResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_887_deferOptionShowing.png", ScreenshotImageFormat.Png);
         }
 
         /**
@@ -252,7 +257,45 @@ namespace StudentAdminPortal
 
             IWebElement reviewerLabel = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/form[1]/div[1]/div[1]/div[1]/h4[1]/span[2]"));
 
-            Assert.AreEqual("lsalgado", reviewerLabel.Text);          
+            Assert.AreEqual("lsalgado", reviewerLabel.Text);
+
+            //Take screenshot of the correct reviewer label
+            Screenshot reviewerLabelResult = ((ITakesScreenshot)driver).GetScreenshot();
+            reviewerLabelResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_915_ReviewerLabel.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Automation test for verifying the ACT score in a student to be without decimals
+         */
+        [TestMethod]
+        public void SAMS_945()
+        {
+            IWebElement rsStudentTab = driver.FindElement(By.LinkText("Students"));
+            rsStudentTab.Click();
+
+            IWebElement firstNameField = driver.FindElement(By.Id("firstName"));
+            firstNameField.SendKeys("tdrs071618b");
+            firstNameField.SendKeys(Keys.Enter);
+
+            IWebElement acctNumButton = driver.FindElement(By.LinkText("RS19100184"));
+            acctNumButton.Click();
+
+            Thread.Sleep(1000);
+
+            IWebElement appInfoTab = driver.FindElement(By.LinkText("App Info"));
+            appInfoTab.Click();
+
+            IWebElement compActField = driver.FindElement(By.Name("actComposite.score"));         
+            Actions scrollToActField = new Actions(driver);
+            scrollToActField.MoveToElement(compActField);
+            scrollToActField.Build().Perform();
+            string actComposite = compActField.Text;
+
+            Assert.IsTrue(actComposite != "22.0");
+
+            //Take screenshot of ACT score result
+            Screenshot actScoreResult = ((ITakesScreenshot)driver).GetScreenshot();
+            actScoreResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_945_nonDecimalACTScoreFormat.png", ScreenshotImageFormat.Png);
         }
     }
 }
