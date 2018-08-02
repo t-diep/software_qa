@@ -56,6 +56,31 @@ namespace StudentAdminPortal
         }
 
         /**
+         * Automation test for verifying the new award and review statuses for 2019 RS students
+         */
+        [TestMethod]
+        public void SAMS_770()
+        {
+            driver.Navigate().GoToUrl("http://10.4.1.99/regents/appReview?stateStudentId=RS19100153");
+
+            Thread.Sleep(1000);
+
+            IWebElement appInfoTab = driver.FindElement(By.LinkText("App Info"));
+            appInfoTab.Click();
+
+            IWebElement awardReviewLabel = driver.FindElement(By.Id("awardStatusTop"));
+            string awardStatus = awardReviewLabel.Text;
+
+            IWebElement reviewStatusLabel = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/form[1]/div[1]/div[1]/div[1]/h4[1]/span[1]"));
+            string reviewStatus = reviewStatusLabel.Text;
+
+            Assert.IsTrue(awardStatus == "Application Downloaded");
+            Assert.IsTrue(reviewStatus == "Not Started");
+
+            /*TODO: Complete steps 2 - 6 */
+        }
+
+        /**
          * Automation test for pulling the New "Application By College Choice" report
          */
         [TestMethod]
@@ -414,6 +439,15 @@ namespace StudentAdminPortal
             //Take screenshot of ACT score result
             Screenshot actScoreResult = ((ITakesScreenshot)driver).GetScreenshot();
             actScoreResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_945_nonDecimalACTScoreFormat.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Closes each test case session
+         */
+        [TestCleanup]
+        public void CloseBrowser()
+        {
+            driver.Close();
         }
     }
 }
