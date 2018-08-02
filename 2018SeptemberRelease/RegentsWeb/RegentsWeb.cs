@@ -532,6 +532,32 @@ namespace RegentsWeb
         }
 
         /**
+         * Automation test for verifying the RS CAF 
+         */
+        [TestMethod]
+        public void SAMS_844()
+        {
+            string acctNumber = "RS18106909";
+            string password = "Welcome01";
+
+            IWebElement usernameField = driver.FindElement(By.Name("username"));
+            usernameField.SendKeys(acctNumber);
+
+            IWebElement passwordField = driver.FindElement(By.Name("password"));
+            passwordField.SendKeys(password);
+
+            IWebElement signInButton = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]"));
+            signInButton.Click();
+
+            IWebElement cafFormTab = driver.FindElement(By.LinkText("Conditional Acceptance Form"));
+            cafFormTab.Click();
+
+            string currentPage = driver.Url;
+
+            Assert.AreEqual("https://devaccount.regentsscholarship.org/regents/caform", currentPage);
+        }
+
+        /**
          * Automate test for inputting an incorrect phone number without stack trace errors
          */
         [TestMethod]

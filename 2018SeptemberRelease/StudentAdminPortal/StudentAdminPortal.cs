@@ -40,7 +40,7 @@ namespace StudentAdminPortal
         }
 
         //~PRIVATE METHODS~//
-       
+
 
         //~END PRIVATE METHODS~//
 
@@ -326,6 +326,60 @@ namespace StudentAdminPortal
             //Take screenshot of NC Annual Report and its correct columns
             Screenshot ncAnnualReportColumns = ((ITakesScreenshot)driver).GetScreenshot();
             ncAnnualReportColumns.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_923_NCAnnualReportCorrectColumns.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Automation test for verifying the Complete Review button remains disabled during the 
+         * "Not Started" review status and "Application Downloaded" award status
+         */
+        [TestMethod]
+        public void SAMS_943()
+        {
+            //Click on the RS "Students" tab
+            IWebElement studentsTab = driver.FindElement(By.LinkText("Students"));
+            studentsTab.Click();
+
+            //Enter the first name of the RS account we are looking for
+            IWebElement firstNameField = driver.FindElement(By.Id("firstName"));
+            firstNameField.SendKeys("tdrs071218a");
+            firstNameField.SendKeys(Keys.Enter);
+
+            //Click on account number to access their page
+            IWebElement acctNumberButton = driver.FindElement(By.LinkText("RS19100177"));
+            acctNumberButton.Click();
+
+            //Wait until the page finishes loading and shows the App Info page
+            By appInfoLinkText = By.LinkText("App Info");
+            IWebElement appInfoTab = driver.FindElement(appInfoLinkText);
+
+            Actions scrollToAppInfoTab = new Actions(driver);
+            new WebDriverWait(driver, TimeSpan.FromSeconds(3)).Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(appInfoLinkText));
+            scrollToAppInfoTab.MoveToElement(appInfoTab);
+
+            Actions clickingOnAppInfoTab = new Actions(driver);
+            clickingOnAppInfoTab.Click(appInfoTab).Build().Perform();
+
+            //IWebElement reviewStatusSelector = driver.FindElement(reviewStatusName);
+            //waitForWebElements.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(reviewStatusName));          
+            //reviewStatusSelector.SendKeys("Not Started");
+
+            //IWebElement reassignButton = driver.FindElement(By.Id("reassign"));
+            //reassignButton.Click();
+
+            //IWebElement awardStatusSelector = driver.FindElement(By.Name("scholarshipApplication.awardStatus.code"));
+            //WebDriverWait waitForAwardStatus = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
+            //waitForAwardStatus.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(awardStatusSelector));
+            //awardStatusSelector.SendKeys("Application Downloaded");
+
+            //IWebElement saveButton = driver.FindElement(By.Id("saveReview"));
+            //saveButton.Click();
+
+            //IWebElement completeReviewButton = driver.FindElement(By.Id("completeReview"));
+            //Assert.IsFalse(completeReviewButton.Enabled);
+
+            ////Take a screenshot of the disabled complete review button
+            //Screenshot disabledCompleteReviewButton = ((ITakesScreenshot)driver).GetScreenshot();
+            //disabledCompleteReviewButton.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_943_DisabledCompleteReviewButton.png", ScreenshotImageFormat.Png);
         }
 
         /**
