@@ -16,6 +16,7 @@ namespace RegentsWeb
         IJavaScriptExecutor jexe;
         const string adminPortal = "http://10.4.1.99";
         const string regentsWeb = "https://devaccount.regentsscholarship.org/login";
+        const string password = "Welcome01";
 
         [TestInitialize]
         public void ConfigureRunBrowser()
@@ -555,7 +556,10 @@ namespace RegentsWeb
             string currentPage = driver.Url;
 
             Assert.AreEqual("https://devaccount.regentsscholarship.org/regents/caform", currentPage);
-        }
+
+            Screenshot rsCAF = ((ITakesScreenshot)driver).GetScreenshot();
+            rsCAF.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_844_RS_CAF.png", ScreenshotImageFormat.Png);
+        }      
 
         /**
          * Automate test for inputting an incorrect phone number without stack trace errors

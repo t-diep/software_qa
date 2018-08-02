@@ -14,6 +14,7 @@ namespace NewCentury
         const string adminPortal = "http://10.4.1.99";
         const string newCenturyWeb = "https://devaccount.newcenturyscholarship.org/login";
         const string alphabet = "abcdefghijklmnopqrstuvwxyz";
+        const string password = "Welcome01";
 
         [TestInitialize]
         public void ConfigureRunBrowser()
@@ -72,6 +73,34 @@ namespace NewCentury
             //Take screenshot of application closed displayed 
             Screenshot negativeTestResult = ((ITakesScreenshot)driver).GetScreenshot();
             negativeTestResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_882_ApplicationClosed.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Automation test for verifying the NC CAF
+         */
+        [TestMethod]
+        public void SAMS_845()
+        {
+            string username = "NC18100172";
+
+            IWebElement usernameField = driver.FindElement(By.Name("username"));
+            usernameField.SendKeys(username);
+
+            IWebElement passwordField = driver.FindElement(By.Name("password"));
+            passwordField.SendKeys(password);
+
+            IWebElement signInButton = driver.FindElement(By.XPath("/html[1]/body[1]/header[1]/div[1]/div[1]/div[1]/div[1]/form[1]/button[1]"));
+            signInButton.Click();
+
+            IWebElement cafTab = driver.FindElement(By.LinkText("Conditional Acceptance Form"));
+            cafTab.Click();
+
+            string currentPage = driver.Url;
+
+            Assert.AreEqual("https://devaccount.newcenturyscholarship.org/caform", currentPage);
+
+            Screenshot ncCAF = ((ITakesScreenshot)driver).GetScreenshot();
+            ncCAF.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_845_NC_CAF.png", ScreenshotImageFormat.Png);
         }
 
         /**
