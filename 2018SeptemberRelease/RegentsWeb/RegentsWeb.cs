@@ -311,6 +311,53 @@ namespace RegentsWeb
         }
 
         /**
+         * Automation test for verifying for the duplicate email error not showing for a particular 2019 RS student 
+         * account
+         */
+        [TestMethod]
+        public void SAMS_793()
+        {
+            //Enter in username, password, and then click on the sign in button
+            driver.FindElement(By.Name("username")).SendKeys("nwrs0802b");
+            driver.FindElement(By.Name("password")).SendKeys("Welcome01");
+            driver.FindElement(By.CssSelector("div.wrapper div:nth-child(2) div:nth-child(1) div.login:nth-child(3) form.login-form > input.primary:nth-child(6)")).Click();
+
+            //Clicking on "Complete Now"
+            driver.FindElement(By.Id("applyScholarshipBtn")).Click();
+
+            //Clicking on "Personal Information" tab on the top 
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[1]/ul[1]/li[2]/a[1]")).Click();
+
+            //Clicking on the Close button to close video pop-up
+            driver.FindElement(By.CssSelector("body:nth-child(2) div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable:nth-child(4) div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix:nth-child(3) div.ui-dialog-buttonset > button:nth-child(1)")).Click();
+
+            //Locating the primary email address field and testing using the specified email address for the test case
+            IWebElement emailAddressField = driver.FindElement(By.Name("emailAddress"));
+            emailAddressField.Clear();
+            emailAddressField.SendKeys("miguelrivera@ushe.edu");
+            emailAddressField.SendKeys(Keys.Tab);
+
+            //Get the email address we entered in the field
+            string textValue = emailAddressField.GetAttribute("value");
+
+            try
+            {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);              
+                //Search for the duplicate email address error message
+                driver.FindElement(By.CssSelector("#emailAddress-error"));                
+                Assert.Fail("Duplicate email error message should not show");
+            }
+            catch (Exception)
+            {
+                Assert.IsTrue(textValue == "miguelrivera@ushe.edu");
+            }
+
+            //Take screenshot of result
+            Screenshot noDuplicateEmailErrorResult = ((ITakesScreenshot)driver).GetScreenshot();
+            noDuplicateEmailErrorResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_793_NoDuplicateEmailError");
+        }
+
+        /**
          * Automation test for configuring RS Application settings under admin portal for 2018 RS applicants
          */
         [TestMethod]
@@ -713,6 +760,34 @@ namespace RegentsWeb
             //Take screenshot of result
             Screenshot forgottenPasswordResult = ((ITakesScreenshot)driver).GetScreenshot();
             forgottenPasswordResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_918_Password.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Automation test for testing the proper text displayed for 2018 RS Student
+         * 
+         * (TODO) Finish writing test case
+         */
+        [TestMethod]
+        [Ignore]
+        public void SAMS_939()
+        {
+            IWebElement usernameField = driver.FindElement(By.Name("username"));
+            usernameField.SendKeys("RS18100120");
+
+            IWebElement passwordField = driver.FindElement(By.Name("password"));
+            passwordField.SendKeys(password);
+
+            IWebElement signInButton = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]"));
+            signInButton.Click();
+
+            IWebElement completeNowButton = driver.FindElement(By.Id("applyScholarshipBtn"));
+            completeNowButton.Click();
+
+            IWebElement courseWorkTab = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[1]/ul[1]/li[4]/a[1]"));
+            courseWorkTab.Click();
+
+            IWebElement closeVideoButton = driver.FindElement(By.CssSelector("body:nth-child(2) div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable:nth-child(3) div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix:nth-child(3) div.ui-dialog-buttonset > button:nth-child(1)"));
+            closeVideoButton.Click();
         }
 
         /**
