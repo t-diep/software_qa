@@ -47,19 +47,24 @@ namespace RegentsWeb
             driver.FindElement(By.Name("password")).SendKeys(password);
             driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]")).Click();
 
+            //Click on "Complete Now" button
             driver.FindElement(By.Id("applyScholarshipBtn")).Click();
 
             //Click on the "Educational Information" tab on the top
             driver.FindElement(By.CssSelector("div:nth-child(1) div:nth-child(3) div.wizard:nth-child(1) ul.steps > li.page_hover_rsnt:nth-child(3)")).Click();
 
+            //Scroll down to where we can see the gpa field
             jexe.ExecuteScript("window.scrollTo(0, 750)");
 
+            //Test for negative threshold minimum GPA requirement
             IWebElement gpaField = driver.FindElement(By.Id("cumulativeGpa"));
             gpaField.SendKeys("3.299");
-            gpaField.SendKeys(Keys.Enter);
+            gpaField.SendKeys(Keys.Tab);
 
+            //Verify that the minimum GPA error pop-up message shows
             try
             {
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(1);
                 IWebElement gpaError = driver.FindElement(By.CssSelector("div.bootbox.modal.fade.danger.in:nth-child(4) div.modal-dialog div.modal-content div.modal-body div.bootbox-body > span:nth-child(1)"));
                 Assert.IsTrue(gpaError.Displayed);
             }
@@ -302,12 +307,12 @@ namespace RegentsWeb
             }
             catch(Exception)
             {
-                
+                Assert.IsTrue(gpaField.GetAttribute("value") == "3.3");
             }
 
             //Take screenshot of result
-            Screenshot ss = ((ITakesScreenshot)driver).GetScreenshot();
-            ss.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_724_Positive.png", ScreenshotImageFormat.Png);
+            Screenshot gpaErrorPositive = ((ITakesScreenshot)driver).GetScreenshot();
+            gpaErrorPositive.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_724_Positive.png", ScreenshotImageFormat.Png);
         }
 
         /**
@@ -731,6 +736,7 @@ namespace RegentsWeb
 
         /**
          * Automate test for forgotten password functionaltity on RS Web Application
+         * (TODO) Work on making the whole text message visible
          */
         [TestMethod]
         public void SAMS_918_ForgotPassword()
@@ -757,37 +763,106 @@ namespace RegentsWeb
                 Assert.Fail("Forgot password instructions should display");
             }
 
+            jexe.ExecuteScript("scroll(0, 200)");
+
             //Take screenshot of result
             Screenshot forgottenPasswordResult = ((ITakesScreenshot)driver).GetScreenshot();
-            forgottenPasswordResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_918_Password.png", ScreenshotImageFormat.Png);
+            forgottenPasswordResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_939_Deadlines_2018.png", ScreenshotImageFormat.Png);
         }
 
         /**
          * Automation test for testing the proper text displayed for 2018 RS Student
-         * 
-         * (TODO) Finish writing test case
          */
         [TestMethod]
-        [Ignore]
-        public void SAMS_939()
+        public void SAMS_939_2018_Student()
         {
-            IWebElement usernameField = driver.FindElement(By.Name("username"));
-            usernameField.SendKeys("RS18100120");
+            //Configure to 2018 cohort year on Student Admin Portal
+            driver.Navigate().GoToUrl("http://10.4.1.99/regents/appSettings");
 
-            IWebElement passwordField = driver.FindElement(By.Name("password"));
-            passwordField.SendKeys(password);
+            //In case we need to login first, do so
+            if(driver.Url == "http://10.4.1.99/login")
+            {
+                driver.FindElement(By.Name("username")).SendKeys("admin");
+                driver.FindElement(By.Name("password")).SendKeys("Welcome01");
+                driver.FindElement(By.XPath("/html[1]/body[1]/div[2]/div[1]/form[1]/span[1]/button[1]")).Click();
+                driver.FindElement(By.LinkText("Settings")).Click();
+            }
 
-            IWebElement signInButton = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]"));
-            signInButton.Click();
+            IWebElement academicYearField = driver.FindElement(By.Id("academicYear"));
+            academicYearField.Clear();
+            academicYearField.SendKeys("2018");
 
-            IWebElement completeNowButton = driver.FindElement(By.Id("applyScholarshipBtn"));
-            completeNowButton.Click();
+            IWebElement applicationYearField = driver.FindElement(By.Id("applicationYear"));
+            applicationYearField.Clear();
+            applicationYearField.SendKeys("2018");
 
-            IWebElement courseWorkTab = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[1]/ul[1]/li[4]/a[1]"));
-            courseWorkTab.Click();
+            IWebElement saveButton = driver.FindElement(By.CssSelector("body.pace-done:nth-child(2) section.theme-default:nth-child(3) section.main-content-wrapper:nth-child(3) section.animated.fadeInRight.ng-scope div.row div.col-md-12 div.panel.panel-primary div.panel-body form:nth-child(1) div.form-group.col-md-12:nth-child(9) > button.btn.btn-primary.left-side"));
+            saveButton.Click();
 
-            IWebElement closeVideoButton = driver.FindElement(By.CssSelector("body:nth-child(2) div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable:nth-child(3) div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix:nth-child(3) div.ui-dialog-buttonset > button:nth-child(1)"));
-            closeVideoButton.Click();
+            //Navigate to and log onto RS Web App
+            driver.Navigate().GoToUrl("https://devaccount.regentsscholarship.org/login");
+            driver.FindElement(By.Name("username")).SendKeys("RS18100120");
+            driver.FindElement(By.Name("password")).SendKeys(password);
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]")).Click();
+
+            //Click on Complete Now button
+            driver.FindElement(By.Id("applyScholarshipBtn")).Click();
+
+            //Click on the Course Work tab on the top
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[1]/ul[1]/li[4]/a[1]")).Click();
+
+            //Click on the "Add English Course" button
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[1]/div[1]/h3[1]/button[1]")).Click();
+
+            //Select Concurrent Enrollment as class type and 9th as the grade level
+            driver.FindElement(By.Id("courseWeightId")).SendKeys("Concurrent");
+            driver.FindElement(By.Id("gradeLevel")).SendKeys("9th");
+
+            //Find the message then retrieve it to verify
+            IWebElement ceGradeMessage = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[3]/div[1]/div[1]/div[1]/form[1]/div[1]/div[2]/div[11]/div[2]/div[2]"));
+            string message = ceGradeMessage.Text;
+
+            //Verify the correct priority and final deadlines for 2018 RS Students
+            Assert.IsTrue(message.Contains("December 7, 2018") && message.Contains("February 1, 2019"));
+
+            //Take screenshot of priority and final deadlines of 2018 cohort year
+            Screenshot deadlinesResult2018 = ((ITakesScreenshot)driver).GetScreenshot();
+            deadlinesResult2018.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_939_Deadlines_2019.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Automation test for testing the proper text displayed for 2019 RS Student 
+         */
+        [TestMethod]
+        public void SAMS_939_2019_Student()
+        {
+            //Log onto RS Web App
+            driver.FindElement(By.Name("username")).SendKeys("tdrs060818b");
+            driver.FindElement(By.Name("password")).SendKeys(password);
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[1]/form[1]/input[3]")).Click();
+
+            //Click on Complete Now button
+            driver.FindElement(By.Id("applyScholarshipBtn")).Click();
+
+            //Click on the Course Work tab on the top
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[1]/ul[1]/li[4]/a[1]")).Click();
+
+            //Close the video pop-up message
+            driver.FindElement(By.CssSelector("body:nth-child(2) div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable:nth-child(3) div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix:nth-child(3) div.ui-dialog-buttonset > button:nth-child(1)")).Click();
+
+            //Click on the "Add English Course" button
+            driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/section[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[4]/div[1]/div[1]/h3[1]/button[1]")).Click();
+
+            //Select Concurrent Enrollment as class type and 9th as the grade level
+            driver.FindElement(By.Id("courseWeightId")).SendKeys("Concurrent");
+            driver.FindElement(By.Id("gradeLevel")).SendKeys("9th");
+
+            //Find the message then retrieve it to verify
+            IWebElement ceGradeMessage = driver.FindElement(By.XPath("/html[1]/body[1]/div[1]/div[3]/div[3]/div[1]/div[1]/div[1]/form[1]/div[1]/div[2]/div[11]/div[2]/div[2]"));
+            string message = ceGradeMessage.Text;
+
+            //Verify the correct priority and final deadlines for 2018 RS Students
+            Assert.IsTrue(message.Contains("December 9, 2018") && message.Contains("February 1, 2019"));
         }
 
         /**
