@@ -248,6 +248,7 @@ namespace StudentAdminPortal
                 File.Delete(pathToReport);               
             }
 
+            //Click on the "Excel button"
             IWebElement excelButton = driver.FindElement(By.Id("excelButton"));
             excelButton.Click();
 
@@ -302,55 +303,6 @@ namespace StudentAdminPortal
             //Take screenshot of defer option showing up
             Screenshot deferOptionResult = ((ITakesScreenshot)driver).GetScreenshot();
             deferOptionResult.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_887_deferOptionShowing.png", ScreenshotImageFormat.Png);
-        }
-
-        /**
-         * Automation test for verifying that the "Closed" review status appears on Admin Portal
-         */
-        [TestMethod]
-        public void SAMS_908()
-        {
-            driver.Navigate().GoToUrl("http://10.4.1.99/regents/appReview?stateStudentId=RS19100172");
-
-            //driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-
-            //WebDriverWait waitForAppInfoTab = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            //IWebElement appInfoTab = waitForAppInfoTab.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.LinkText("App Info")));
-
-            //string focusedElement = driver.SwitchTo().ActiveElement().Text;
-            //Console.WriteLine(focusedElement);
-
-            //Actions appInfoTabActions = new Actions(driver);
-            //appInfoTabActions.MoveToElement(appInfoTab).Build().Perform();
-            //appInfoTabActions.Click().Build().Perform();
-
-            //focusedElement = driver.SwitchTo().ActiveElement().Text;
-
-            //Console.WriteLine(focusedElement);
-
-            IWebElement holderAllTabs = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/ul[1]"));
-
-            var allTopTabs = new SelectElement(holderAllTabs);
-
-            var allTabs = allTopTabs.Options;
-
-            Console.WriteLine(allTabs.Count);
-
-            //SelectElement allReviewStatuses = new SelectElement(reviewStatusDropList);
-
-            //IList<IWebElement> reviewStatusOptions = allReviewStatuses.Options;
-
-            //bool closedOptionExists = false;
-
-            //foreach (IWebElement option in reviewStatusOptions)
-            //{
-            //    if (option.Text == "Closed")
-            //    {
-            //        closedOptionExists = true;
-            //    }
-            //}
-
-            //Assert.IsTrue(closedOptionExists);
         }
 
         /**
