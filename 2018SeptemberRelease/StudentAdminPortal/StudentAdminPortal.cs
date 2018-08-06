@@ -39,11 +39,6 @@ namespace StudentAdminPortal
             driver.FindElement(By.Id("password")).SendKeys(Keys.Enter);
         }
 
-        //~PRIVATE METHODS~//
-
-
-        //~END PRIVATE METHODS~//
-
         //~AUTOMATION TESTS~//
 
         /**
@@ -67,8 +62,80 @@ namespace StudentAdminPortal
             Actions appInfoTabActions = new Actions(driver);
             IWebElement appInfoTab = waitForAppInfoTab.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.LinkText("App Info")));
             appInfoTabActions.MoveToElement(appInfoTab);
-            appInfoTabActions.Click().Build().Perform();
+            appInfoTabActions.Click().Build().Perform();          
+        }
+
+        /**
+         * Automation test for denying a student if they submitted their FAFSA late
+         */
+        [TestMethod]
+        public void SAMS_720()
+        {
+            //Log into Student Admin Portal if necessary
+            if(driver.Url == "http://10.4.1.99/login")
+            {
+                driver.FindElement(By.Name("username")).SendKeys("admin");
+                driver.FindElement(By.Name("password")).SendKeys("Welcome01");
+            }
+
+            //Directly access the account number RS19100109 
+            driver.Navigate().GoToUrl("http://10.4.1.99/regents/appReview?stateStudentId=RS19100109");
+
+            ////
+            //WebDriverWait waitForAppInfoTab = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            //Actions appInfoTabActions = new Actions(driver);
+            //IWebElement appInfoTab = waitForAppInfoTab.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/ul[1]/li[3]/a[1]")));
+            //appInfoTabActions.MoveToElement(appInfoTab);
+            //appInfoTabActions.Click().Build().Perform();
+
+            IWebElement appInfoTab = driver.FindElement(By.LinkText("App Info"));
+
+            //Jexe
+            jexe.ExecuteScript("arguments[0].click()", appInfoTab);
+            jexe.ExecuteScript("arguments[0].click()", appInfoTab);
+
+            Thread.Sleep(3500);
+
+            IWebElement reviewStatus = driver.FindElement(By.Name("scholarshipApplication.currentReviewType"));
+
+            Actions moveToReviewStatus = new Actions(driver);
+            moveToReviewStatus.MoveToElement(reviewStatus).Build().Perform();
+            moveToReviewStatus.SendKeys("Second Transcript");
+
+            Thread.Sleep(3500);
+
+            IWebElement reassignButton = driver.FindElement(By.Id("reassign"));
+            reassignButton.Click();
+
+            //Dismiss pop-up notifying changes have been saved
+            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/ul[1]/li[1]/div[1]/button[1]")).Click();
           
+            //Enter in the threshold deadline for submitting FAFSA
+            IWebElement fafsaSubmittedDate = driver.FindElement(By.Name("fafsaDocument.statusDate"));
+            Actions moveToFafsaDateField = new Actions(driver);
+            moveToFafsaDateField.MoveToElement(fafsaSubmittedDate);
+            moveToFafsaDateField.SendKeys("02/02/2019");
+
+            //Save changes
+            IWebElement saveButton = driver.FindElement(By.Id("saveReview"));
+            Actions moveToSaveButton = new Actions(driver);
+            moveToSaveButton.MoveToElement(saveButton);
+            moveToSaveButton.Click().Build().Perform();
+
+            //Complete the review 
+            IWebElement completeReviewButton = driver.FindElement(By.Id("completeReview"));
+            Actions completeTheReview = new Actions(driver);
+            completeTheReview.MoveToElement(completeReviewButton);
+            completeTheReview.Click().Build().Perform();
+
+            //Get the label of the current award status
+            IWebElement awardStatusLabel = driver.FindElement(By.Id("awardStatusTop"));
+            string currAwardStatus = awardStatusLabel.Text;
+
+            IWebElement fafsaSubmittedLate = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/form[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/select[1]/option[21]"));
+
+            //Verify the student is denied
+            Assert.IsTrue(currAwardStatus == "Denied" && fafsaSubmittedLate.Selected);
         }
 
         /**
