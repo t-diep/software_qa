@@ -457,38 +457,43 @@ namespace StudentAdminPortal
             IWebElement acctNumberButton = driver.FindElement(By.LinkText("RS19100177"));
             acctNumberButton.Click();
 
-            //Wait until the page finishes loading and shows the App Info page
-            By appInfoLinkText = By.LinkText("App Info");
-            IWebElement appInfoTab = driver.FindElement(appInfoLinkText);
+            //Wait for App Info tab to show, then click on it
+            WebDriverWait waitForAppInfo = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            IWebElement appInfoTab = waitForAppInfo.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.LinkText("App Info")));
+            jexe.ExecuteScript("arguments[0].click()", appInfoTab);
 
-            Actions scrollToAppInfoTab = new Actions(driver);
-            new WebDriverWait(driver, TimeSpan.FromSeconds(3)).Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(appInfoLinkText));
-            scrollToAppInfoTab.MoveToElement(appInfoTab);
+            //Change the review status to "Not Started", then hit the Reassign button
+            IWebElement reviewStatusSelector = driver.FindElement(By.Name("scholarshipApplication.currentReviewType"));
+            reviewStatusSelector.SendKeys("Not Started");
+            IWebElement reassignButton = driver.FindElement(By.Id("reassign"));
+            jexe.ExecuteScript("arguments[0].click()", reassignButton);
 
-            Actions clickingOnAppInfoTab = new Actions(driver);
-            clickingOnAppInfoTab.Click(appInfoTab).Build().Perform();
+            //Close the pop-up that verifies the review status was updated
+            Actions xButtonActions = new Actions(driver);
+            IWebElement reviewStatusSavedXButton = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/ul[1]/li[1]/div[1]/button[1]"));
+            reviewStatusSavedXButton.Click();
 
-            //IWebElement reviewStatusSelector = driver.FindElement(reviewStatusName);
-            //waitForWebElements.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(reviewStatusName));          
-            //reviewStatusSelector.SendKeys("Not Started");
+            //Click on the App Info tab again to get the whole App Info page to resolve glitch
+            jexe.ExecuteScript("arguments[0].click()", appInfoTab);
 
-            //IWebElement reassignButton = driver.FindElement(By.Id("reassign"));
-            //reassignButton.Click();
+            //Change the award status to "Application Downloaded
+            WebDriverWait waitForAwardStatus = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
+            IWebElement awardStatusList = waitForAwardStatus.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/form[1]/div[2]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[1]/select[1]")));
+            awardStatusList.SendKeys("Application Downloaded");
 
-            //IWebElement awardStatusSelector = driver.FindElement(By.Name("scholarshipApplication.awardStatus.code"));
-            //WebDriverWait waitForAwardStatus = new WebDriverWait(driver, TimeSpan.FromSeconds(2));
-            //waitForAwardStatus.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(awardStatusSelector));
-            //awardStatusSelector.SendKeys("Application Downloaded");
+            //Click on the "Save" button to confirm changes
+            WebDriverWait waitForSaveButton = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
+            IWebElement saveButton = waitForSaveButton.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.Id("saveReview")));
+            saveButton.Click();
 
-            //IWebElement saveButton = driver.FindElement(By.Id("saveReview"));
-            //saveButton.Click();
+            //Click on "Complete Review", then verify the "Complete Review" button is disabled
+            WebDriverWait waitForCompleteReviewButton = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
+            IWebElement completeReviewButton = waitForCompleteReviewButton.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("completeReview")));
+            Assert.IsFalse(completeReviewButton.Enabled);
 
-            //IWebElement completeReviewButton = driver.FindElement(By.Id("completeReview"));
-            //Assert.IsFalse(completeReviewButton.Enabled);
-
-            ////Take a screenshot of the disabled complete review button
-            //Screenshot disabledCompleteReviewButton = ((ITakesScreenshot)driver).GetScreenshot();
-            //disabledCompleteReviewButton.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_943_DisabledCompleteReviewButton.png", ScreenshotImageFormat.Png);
+            //Take a screenshot of the disabled complete review button
+            Screenshot disabledCompleteReviewButton = ((ITakesScreenshot)driver).GetScreenshot();
+            disabledCompleteReviewButton.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_943_DisabledCompleteReviewButton.png", ScreenshotImageFormat.Png);
         }
 
         /**
