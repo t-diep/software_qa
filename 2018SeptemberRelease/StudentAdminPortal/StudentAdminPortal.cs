@@ -415,6 +415,9 @@ namespace StudentAdminPortal
 
             //Locate the EFC field, then get the value in the field       
             IWebElement efcField = driver.FindElement(By.Id("scholarshipApplication.expectedFamilyContribution"));
+            Actions efcAmountActions = new Actions(driver);
+            efcAmountActions.MoveToElement(efcField).Perform();
+            efcAmountActions.MoveByOffset(0, 1000).Release().Perform();
             string efcString = efcField.GetAttribute("value");
 
             //Verify that the EFC Amount is in US Currency format
