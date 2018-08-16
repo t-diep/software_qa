@@ -11,7 +11,7 @@ namespace NewCentury
     {
         IWebDriver driver;
         IJavaScriptExecutor jexe;
-        const string adminPortal = "http://10.4.1.99";
+        const string adminPortalDev = "http://10.4.1.99";
         const string newCenturyWeb = "https://devaccount.newcenturyscholarship.org/login";
         const string alphabet = "abcdefghijklmnopqrstuvwxyz";
         const string password = "Welcome01";
@@ -37,7 +37,7 @@ namespace NewCentury
         public void SAMS_882_Negative()
         {
             //Login to the Student Admin Portal
-            driver.Navigate().GoToUrl(adminPortal);
+            driver.Navigate().GoToUrl(adminPortalDev);
             driver.FindElement(By.Id("username")).SendKeys("admin");
             driver.FindElement(By.Id("password")).SendKeys("Welcome01");
             driver.FindElement(By.Id("password")).SendKeys(Keys.Enter);
@@ -111,7 +111,7 @@ namespace NewCentury
         public void SAMS_882_Positive()
         {
             //Login to the Student Admin Portal
-            driver.Navigate().GoToUrl(adminPortal);
+            driver.Navigate().GoToUrl(adminPortalDev);
             driver.FindElement(By.Id("username")).SendKeys("admin");
             driver.FindElement(By.Id("password")).SendKeys("Welcome01");
             driver.FindElement(By.Id("password")).SendKeys(Keys.Enter);
@@ -253,7 +253,7 @@ namespace NewCentury
             IWebElement closeVideoPopup = driver.FindElement(By.CssSelector("body.login_bg_body:nth-child(2) div.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-front.ui-dialog-buttons.ui-draggable.ui-resizable:nth-child(16) div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix:nth-child(3) div.ui-dialog-buttonset button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only > span.ui-button-text"));
             closeVideoPopup.Click();
 
-            string username = "tdrs" + DateTime.Now.ToString("MM/dd/yy") + alphabet[0];
+            string username = "tdnc" + DateTime.Now.ToString("MM/dd/yy") + alphabet[0];
             string password = "Welcome01";
             string email = username + "@hkconsulting.biz";
             string phoneNumber = "(500) 555-0006";

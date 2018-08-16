@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -51,7 +52,7 @@ namespace StudentAdminPortal
         }
 
         /**
-         * 
+         * Sample automation test for learning how to automate test clicking the App Info tab
          */
         [TestMethod]
         public void TestWaitForAppInfoToLoadThenClick()
@@ -63,104 +64,6 @@ namespace StudentAdminPortal
             IWebElement appInfoTab = waitForAppInfoTab.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.LinkText("App Info")));
             appInfoTabActions.MoveToElement(appInfoTab);
             appInfoTabActions.Click().Build().Perform();          
-        }
-
-        /**
-         * Automation test for denying a student if they submitted their FAFSA late
-         */
-        [TestMethod]
-        public void SAMS_720()
-        {
-            //Log into Student Admin Portal if necessary
-            if(driver.Url == "http://10.4.1.99/login")
-            {
-                driver.FindElement(By.Name("username")).SendKeys("admin");
-                driver.FindElement(By.Name("password")).SendKeys("Welcome01");
-            }
-
-            //Directly access the account number RS19100109 
-            driver.Navigate().GoToUrl("http://10.4.1.99/regents/appReview?stateStudentId=RS19100109");
-
-            ////
-            //WebDriverWait waitForAppInfoTab = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            //Actions appInfoTabActions = new Actions(driver);
-            //IWebElement appInfoTab = waitForAppInfoTab.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/ul[1]/li[3]/a[1]")));
-            //appInfoTabActions.MoveToElement(appInfoTab);
-            //appInfoTabActions.Click().Build().Perform();
-
-            IWebElement appInfoTab = driver.FindElement(By.LinkText("App Info"));
-
-            //Jexe
-            jexe.ExecuteScript("arguments[0].click()", appInfoTab);
-            jexe.ExecuteScript("arguments[0].click()", appInfoTab);
-
-            Thread.Sleep(3500);
-
-            IWebElement reviewStatus = driver.FindElement(By.Name("scholarshipApplication.currentReviewType"));
-
-            Actions moveToReviewStatus = new Actions(driver);
-            moveToReviewStatus.MoveToElement(reviewStatus).Build().Perform();
-            moveToReviewStatus.SendKeys("Second Transcript");
-
-            Thread.Sleep(3500);
-
-            IWebElement reassignButton = driver.FindElement(By.Id("reassign"));
-            reassignButton.Click();
-
-            //Dismiss pop-up notifying changes have been saved
-            driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[1]/div[1]/ul[1]/li[1]/div[1]/button[1]")).Click();
-          
-            //Enter in the threshold deadline for submitting FAFSA
-            IWebElement fafsaSubmittedDate = driver.FindElement(By.Name("fafsaDocument.statusDate"));
-            Actions moveToFafsaDateField = new Actions(driver);
-            moveToFafsaDateField.MoveToElement(fafsaSubmittedDate);
-            moveToFafsaDateField.SendKeys("02/02/2019");
-
-            //Save changes
-            IWebElement saveButton = driver.FindElement(By.Id("saveReview"));
-            Actions moveToSaveButton = new Actions(driver);
-            moveToSaveButton.MoveToElement(saveButton);
-            moveToSaveButton.Click().Build().Perform();
-
-            //Complete the review 
-            IWebElement completeReviewButton = driver.FindElement(By.Id("completeReview"));
-            Actions completeTheReview = new Actions(driver);
-            completeTheReview.MoveToElement(completeReviewButton);
-            completeTheReview.Click().Build().Perform();
-
-            //Get the label of the current award status
-            IWebElement awardStatusLabel = driver.FindElement(By.Id("awardStatusTop"));
-            string currAwardStatus = awardStatusLabel.Text;
-
-            IWebElement fafsaSubmittedLate = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/form[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/select[1]/option[21]"));
-
-            //Verify the student is denied
-            Assert.IsTrue(currAwardStatus == "Denied" && fafsaSubmittedLate.Selected);
-        }
-
-        /**
-         * Automation test for verifying the new award and review statuses for 2019 RS students
-         */
-        [TestMethod]
-        public void SAMS_770()
-        {
-            driver.Navigate().GoToUrl("http://10.4.1.99/regents/appReview?stateStudentId=RS19100153");
-
-            Thread.Sleep(1000);
-
-            IWebElement appInfoTab = driver.FindElement(By.LinkText("App Info"));
-            appInfoTab.Click();
-
-            IWebElement awardReviewLabel = driver.FindElement(By.Id("awardStatusTop"));
-            string awardStatus = awardReviewLabel.Text;
-
-            IWebElement reviewStatusLabel = driver.FindElement(By.XPath("/html[1]/body[1]/section[1]/section[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/form[1]/div[1]/div[1]/div[1]/h4[1]/span[1]"));
-            string reviewStatus = reviewStatusLabel.Text;
-
-            Assert.IsTrue(awardStatus == "Application Downloaded");
-            Assert.IsTrue(reviewStatus == "Not Started");
-
-            /*TODO: Complete steps 2 - 6 */
         }
 
         /**
@@ -494,6 +397,32 @@ namespace StudentAdminPortal
             //Take a screenshot of the disabled complete review button
             Screenshot disabledCompleteReviewButton = ((ITakesScreenshot)driver).GetScreenshot();
             disabledCompleteReviewButton.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_943_DisabledCompleteReviewButton.png", ScreenshotImageFormat.Png);
+        }
+
+        /**
+         * Test for verifying the EFC amount to be in US currency format
+         */
+        [TestMethod]
+        public void SAMS_944()
+        {
+            //Directly go to a specific account's Demographics page
+            driver.Navigate().GoToUrl("http://10.4.1.99/regents/appReview?stateStudentId=RS19100172");
+
+            //Wait for App Info tab to show, then click on it
+            WebDriverWait waitForAppInfo = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            IWebElement appInfoTab = waitForAppInfo.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.LinkText("App Info")));
+            jexe.ExecuteScript("arguments[0].click()", appInfoTab);
+
+            //Locate the EFC field, then get the value in the field       
+            IWebElement efcField = driver.FindElement(By.Id("scholarshipApplication.expectedFamilyContribution"));
+            string efcString = efcField.GetAttribute("value");
+
+            //Verify that the EFC Amount is in US Currency format
+            Assert.IsTrue(Double.TryParse(efcString, NumberStyles.Currency, CultureInfo.GetCultureInfo("en-US"), out double efcAmount));
+
+            //Take a screenshot of the EFC Amount format
+            Screenshot verifyEFCAmountFormat = ((ITakesScreenshot)driver).GetScreenshot();
+            verifyEFCAmountFormat.SaveAsFile("C:\\Users\\antho\\OneDrive\\Pictures\\Screenshots\\SAMS_944_EFC_US_Currency_Format.png", ScreenshotImageFormat.Png);
         }
 
         /**
