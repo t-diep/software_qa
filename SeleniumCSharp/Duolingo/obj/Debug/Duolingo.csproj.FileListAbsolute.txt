@@ -9,10 +9,10 @@ C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\bin\Debug\WebDri
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\bin\Debug\WebDriver.xml
-C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\obj\Debug\Duolingo.csprojResolveAssemblyReference.cache
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\obj\Debug\Duolingo.csproj.CoreCompileInputs.cache
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\obj\Debug\Duolingo.csproj.CopyComplete
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\obj\Debug\Duolingo.dll
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\obj\Debug\Duolingo.pdb
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\bin\Debug\WebDriver.Support.dll
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\bin\Debug\WebDriver.Support.xml
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\Duolingo\obj\Debug\Duolingo.csprojAssemblyReference.cache

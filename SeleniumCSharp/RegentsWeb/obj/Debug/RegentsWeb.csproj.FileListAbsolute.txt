@@ -15,4 +15,4 @@ C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\RegentsWeb\obj\Debug\Rege
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\RegentsWeb\obj\Debug\RegentsWeb.csproj.CopyComplete
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\RegentsWeb\obj\Debug\RegentsWeb.dll
 C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\RegentsWeb\obj\Debug\RegentsWeb.pdb
-C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\RegentsWeb\obj\Debug\RegentsWeb.csprojResolveAssemblyReference.cache
+C:\Users\antho\Source\Repos\software_qa\SeleniumCSharp\RegentsWeb\obj\Debug\RegentsWeb.csprojAssemblyReference.cache

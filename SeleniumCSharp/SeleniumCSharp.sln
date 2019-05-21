@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duolingo", "Duolingo\Duolin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegentsWeb", "RegentsWeb\RegentsWeb.csproj", "{E7B0E0D6-DDF2-447C-A547-F4818D8BCEAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToolsQa", "ToolsQa\ToolsQa.csproj", "{0A1096DD-B367-4946-999E-D0E3FFDAD505}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E7B0E0D6-DDF2-447C-A547-F4818D8BCEAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7B0E0D6-DDF2-447C-A547-F4818D8BCEAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7B0E0D6-DDF2-447C-A547-F4818D8BCEAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A1096DD-B367-4946-999E-D0E3FFDAD505}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A1096DD-B367-4946-999E-D0E3FFDAD505}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A1096DD-B367-4946-999E-D0E3FFDAD505}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A1096DD-B367-4946-999E-D0E3FFDAD505}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
